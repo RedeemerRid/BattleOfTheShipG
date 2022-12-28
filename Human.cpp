@@ -157,7 +157,7 @@ void Human::FillShipHumanHandle(int shipLength) {
 
 void Human::print() {
 	for (size_t i = 0; i < n; i++) {
-		for (size_t j = 0; j < n; j++) {
+		for (size_t j = 0; j < m; j++) {
 			cout << arr[i][j] << " ";
 		}
 		cout << endl;
@@ -165,3 +165,10 @@ void Human::print() {
 
 
 }
+
+char** Human::getArr() {
+	return arr;
+}
+
+
+//------------------------------------------------------------------------

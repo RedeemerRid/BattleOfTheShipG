@@ -54,7 +54,8 @@ int main() {
 		case 1://1
 			
 			gamer.set();
-
+			
+			gamer.printGane();
 			
 			_getch();
 			break;

@@ -16,10 +16,11 @@ public:
 	Human();
 	~Human();
 	void print();
-	
 	void ArangmentShip();
-	
 	string getName();
-
+	char** getArr();
+	//----
+	
+	
 };
 
