@@ -11,16 +11,17 @@ protected:
 	void FillArr();
 	void FillShipHumanHandle(int shipLength);
 	void FillShipHumanHandlePrintScreen(int& y, int& x);
-	void setName();
+	void setName(string name);
 public:
 	Human();
 	~Human();
 	void print();
 	void ArangmentShip();
-	string getName();
+	//string getName();
 	char** getArr();
 	//----
-	
+	void AtackShip(int shipLength);
+	void AtackPrintScreen(int& y, int& x);
 	
 };
 
