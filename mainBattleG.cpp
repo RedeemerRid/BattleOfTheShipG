@@ -141,7 +141,7 @@ int main() {
 			gamer.set(v);
 			
 			gamer.printGame();
-			
+			gamer.playGame();
 			_getch();
 			break;
 		case 2://2

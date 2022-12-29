@@ -17,7 +17,7 @@ public:
 	~Human();
 	void print();
 	void ArangmentShip();
-	//string getName();
+	string getName();
 	char** getArr();
 	//----
 	void AtackShip(int shipLength);

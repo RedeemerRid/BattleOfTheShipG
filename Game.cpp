@@ -30,7 +30,7 @@ void Game::arrangementOfShip() {
 	
 	player1->ArangmentShip();
 	arr1 = player1->getArr();
-	//name1 = player1->getName();
+	name1 = player1->getName();
 	cout << " thank you, press enter so that another player can arrange their ships" << endl;
 	_getch();
 	system("cls");
@@ -38,7 +38,7 @@ void Game::arrangementOfShip() {
 	cout << "Player_2 " << endl;
 	player2->ArangmentShip();
 	arr2 = player2->getArr();
-	//name2 = player2->getName();
+	name2 = player2->getName();
 	cout << " thank you, press enter to continue the game" << endl;
 	_getch();
 	system("cls");
@@ -47,7 +47,46 @@ void Game::arrangementOfShip() {
 
 void Game::playGame() {
 
+	bool hit1= true;
+	bool hit2 = true;
+	do{
+		char q=' ';
+		do {
+			hit1 = true;
+			cout << name1 << " - Player 1 attack " << endl << endl;
+			name = name1;
+			arr = arr1;
+			hit1 = Game::AtackShip(arr, name, arr2, name2);
+		} while (hit1);
+		do {
+			cout << "The player 1 - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
+			cout << endl << endl << endl;
+			cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+			q = _getch();
+			system("cls");
+		} while (q != 13);
+		do {
+			hit2 = true;
+			cout << name2 << " - Player 2 attack " << endl << endl;
+			name = name2;
+			arr = arr2;
+			hit2 = Game::AtackShip(arr, name, arr1, name1);
+		} while (hit2);
 
+		do {
+			cout << "The player 2 - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
+			cout << endl << endl << endl;
+			cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+			q = _getch();
+			system("cls");
+		} while (q != 13);
+	} while (hit1 == hit2);
+	if (hit1)
+		cout << "win player1 " << name1 << endl;
+	else if (hit2)
+		cout << "win player 2 " << name2 << endl;
+	else
+		cout << "confuse  " << endl;
 
 }
 
@@ -63,13 +102,113 @@ void Game::printGame() {
 		cout << endl;
 	}
 	cout << endl;
+	
 	for (size_t i = 0; i < n; i++) {
 		for (size_t j = 0; j < m; j++) {
 			cout << arr2[i][j] << " ";
 		}
 		cout << endl;
 	}
+
 }
 
 //--------------------------------
 
+
+void Game::AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX) { // displays the field and ships on the console //выводит на консоль поле и корабли
+
+	system("CLS");
+	cout << name << " Guess where the boat is " << endl << endl;
+
+	for (size_t i = 0; i < n; i++) {
+		for (size_t j = 0; j < m; j++) {
+
+			if (i == 0 || j == 0) {
+				cout << arr[i][j] << " ";
+
+			}
+			if (j == x && i == y && j > 20 && i > 0) {
+				if (arr[i][j] != char(254))
+					cout << "+" << " ";
+				else
+					cout << arr[i][j] << " ";
+			}
+			else if (i > 0 && j > 0) {
+				if (i == 11 || j == 11 || j == 31) {
+					cout << arr[i][j] << " ";
+
+				}
+				else if (arr[i][j] != char(254) && arr[i][j] != '*' && arr[i][j] != char(253) && (j < 12 || (j > 20 && j < m - 1))) {
+					cout << char(250) << " ";
+				}
+				else
+					cout << arr[i][j] << " ";
+			}
+		}
+		cout << endl;
+	}
+}
+bool Game::AtackShip(char** arr, const string &name, char** arrX, const string& nameX) {
+	bool hit = true;
+	int countShipPiece{ 0 }; // подсчет палуб
+	int s = 0; // подсчет кораблей
+	char c; // захват enter на клавиатуре
+	char q; // захват стрелки на клавиатуре
+	int x = 21;
+	int y = 1;
+	Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
+	do {
+		
+		//do {
+			c = _getch();
+			if (c == -32) {
+				q = _getch();
+				// up 72
+				if (q == 72 && y > 1) {
+					y--;
+				}
+				// doarrn 80
+				if (q == 80 && y < 10) {
+					y++;
+				}
+				// left 75
+				if (q == 75 && x > 21) {
+					x--;
+				}
+				// right 77
+				if (q == 77 && x < 30) {
+					x++;
+				}
+			}
+			else if (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) && c == 'z') {
+				if (arrX[y][x - 20] == char(254)) {
+					arr[y][x] = arrX[y][x-20];
+				}
+				else {
+					arr[y][x] = char(253);
+					cout << "LOOOOOOSEr";
+					hit = false;
+					
+				}
+					
+				++s;
+				countShipPiece++;
+			}
+			else if (arr[y][x] != char(254) && arr[y][x] != char(253) && c == 'x') {
+				arr[y][x] = '*';
+				--s;
+				countShipPiece--;
+			}
+			else if (arr[y][x] == '*' && c == 'c') {
+				arr[y][x] = ' ';
+				--s;
+				countShipPiece--;
+			}
+
+			Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
+		//} while (c != 13);
+
+	} while (hit);
+	countShipPiece = 0;
+	return hit;
+}
