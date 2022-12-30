@@ -9,6 +9,7 @@ class Human : public Player
 	string name;
 protected:
 	void FillArr();
+	void freeArr();
 	void FillShipHumanHandle(int shipLength);
 	void FillShipHumanHandlePrintScreen(int& y, int& x);
 	void setName(string name);
@@ -20,8 +21,8 @@ public:
 	string getName();
 	char** getArr();
 	//----
-	void AtackShip(int shipLength);
-	void AtackPrintScreen(int& y, int& x);
+	
+	bool correctPlaceShip();
 	
 };
 

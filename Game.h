@@ -6,11 +6,11 @@ class Game
 {
 
 	int n = 12, m = 32;
-	char** arr{ 0 };
+	//char** arr{ 0 };
 	char** arr1{ 0 };
 	char** arr2{ 0 };
 	string name1,  name2;
-	string name;
+	//string name;
 	//vector<string>* v;
 	Player* player1;
 	Player* player2;
@@ -24,7 +24,7 @@ protected:
 	void arrangementOfShip();
 	
 	
-	bool AtackShip(char** arr, const string& name, char** arrX, const string& nameX);
+	int AtackShip(char** arr, const string& name, char** arrX, const string& nameX, int &countShipPiece);
 	void AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX);
 	
 };

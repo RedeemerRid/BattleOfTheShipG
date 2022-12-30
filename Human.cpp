@@ -7,11 +7,14 @@ using namespace std;
 
 
 Human::Human() {
+	Human::freeArr();
+}
+Human::~Human() {}
+void Human::freeArr() {
 	arr = new char* [n];
 	for (int i = 0; i < n; i++)
 		arr[i] = new char[m];
 }
-Human::~Human() {}
 void Human::setName(string name) { this->name = name; }
 string Human::getName() { return name; }
 void Human::FillArr() { // строим массив поле
@@ -54,16 +57,30 @@ void Human::FillArr() { // строим массив поле
 void Human::ArangmentShip() { // cycle along the length of the ship
 	
 	Human::FillArr();
-
-	int j;
-	for (int i = 4; i >= 1; i--) {
-		j = 5 - i;
-		while (j > 0) {
-			Human::FillShipHumanHandle(i);
-			j--;
+	bool correct = false;
+	do {
+		int j{ 0 };
+		for (int i = 4; i >= 1; i--) {
+			j = 5 - i;
+			while (j > 0) {
+				Human::FillShipHumanHandle(i);
+				j--;
+			}
 		}
-	}
-	cout << "FINISH : " << endl;
+
+		if (correct == !Human::correctPlaceShip()) {
+			_getch();
+			for (int i = 0; i < n; i++)
+				delete[] arr[i];
+			delete[] arr;
+			Human::freeArr();
+			Human::FillArr();
+		}
+		else
+			correct = true;
+		
+	}while(correct!=false);
+	_getch();
 }
 void Human::FillShipHumanHandlePrintScreen(int& y, int& x) { // displays the field and ships on the console //выводит на консоль поле и корабли
 
@@ -160,8 +177,191 @@ char** Human::getArr() {
 	return arr;
 }
 
+bool Human::correctPlaceShip() {
 
-//------------------------------------------------------------------------
+	int s1 = 0;
+	int  s2 = 0, s21 = 0, s22 = 0;
+	int  s3 = 0, s31 = 0, s32 = 0;
+	int  s4 = 0, s41 = 0, s42 = 0;
+
+	for (int i = 1; i < n; i++)
+	{
+		for (int j = 1; j < m; j++)
+		{
+			if (arr[i][j] == char(254)) {
+				if (arr[i - 1][j - 1] != char(254) && arr[i - 1][j] != char(254) && arr[i - 1][j + 1] != char(254) && arr[i][j + 1] != char(254) && arr[i + 1][j + 1] != char(254) && arr[i + 1][j] != char(254) && arr[i + 1][j - 1] != char(254) && arr[i][j - 1] != char(254)) {
+					s1++;
+				}
+			}
+		}
+
+	}
+
+	if (s1 != 4) {
+		cout << "The ships are not positioned correctly. 1-deck " << endl;
+		return false;
+	}
+	else {
+
+		for (int i = 1; i < n; i++)
+		{
+			for (int j = 1; j < m - 1; j++)
+			{
+				if (arr[i][j] == char(254) && arr[i][j + 1] == char(254)) {
+					if (arr[i - 1][j - 1] != char(254) && arr[i - 1][j] != char(254) && arr[i - 1][j + 1] != char(254) && arr[i - 1][j + 2] != char(254) && arr[i][j + 2] != char(254) && arr[i + 1][j + 2] != char(254) && arr[i + 1][j + 1] != char(254) && arr[i + 1][j] != char(254) && arr[i + 1][j - 1] != char(254) && arr[i][j - 1] != char(254))
+						s21++;
+				}
+			}
+		}
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n - 1; j++)
+			{
+				if (arr[j][i] == char(254) && arr[j + 1][i] == char(254)) {
+					if (arr[j - 1][i - 1] != char(254) && arr[j - 1][i] != char(254) && arr[j - 1][i + 1] != char(254) && arr[j][i + 1] != char(254) && arr[j + 1][i + 1] != char(254) && arr[j + 2][i + 1] != char(254) && arr[j + 2][i] != char(254) && arr[j + 2][i - 1] != char(254) && arr[j + 1][i - 1] != char(254) && arr[j][i - 1] != char(254))
+						s22++;
+				}
+			}
+		}
+		s2 = s21 + s22;
+		if (s2 != 3) {
+			cout << "The ships are not positioned correctly. 2-deck " << endl;
+			return false;
+		}
+		else {
+
+			int t31 = 0;
+			for (int i = 1; i < n; i++)
+			{
+				for (int j = 1; j < m - 3; j++)
+				{
+					t31 = 0;
+					if (arr[i][j] == char(254) && arr[i][j + 1] == char(254) && arr[i][j + 2] == char(254)) {
+						//cout << arr[i][0] << arr[0][j] << endl;
+						if (arr[i][j - 1] != char(254) && arr[i][j + 3] != char(254)) {
+							int l = -1;
+							t31++;
+							while (l < 2) {
+								for (int k = -1; k < 4; k++) {
+									if (arr[i + l][j + k] != char(254))
+										t31++;
+								}
+								l = l + 2;
+							}
+						}
+						if (t31 == 11)
+							s31++;
+					}
+				}
+			}
+
+			int t32 = 0;
+			for (int i = 1; i < m; i++)
+			{
+
+				for (int j = 1; j < n - 3; j++)
+				{
+					t32 = 0;
+					if (arr[j][i] == char(254) && arr[j + 1][i] == char(254) && arr[j + 2][i] == char(254)) {
+
+						if (arr[j - 1][i] != char(254) && arr[j + 3][i] != char(254)) {
+							//cout << arr[0][i] << arr[j][0] << endl;
+							int l = -1;
+							t32++;
+							while (l < 2) {
+								for (int k = -1; k < 4; k++) {
+									if (arr[j + k][i + l] != char(254))
+										t32++;
+								}
+								l = l + 2;
+							}
+						}
+						if (t32 == 11) {
+							s32++;
+						}
+					}
+
+				}
+
+
+			}
+			s3 = s31 + s32;
+			if (s3 != 2) {
+				cout << "The ships are not positioned correctly. 3-deck " << endl;
+				return false;
+			}
+			else {
+				int t41 = 0;
+				for (int i = 1; i < n; i++)
+				{
+					for (int j = 1; j < m - 3; j++)
+					{
+						t41 = 0;
+						if (arr[i][j] == char(254) && arr[i][j + 1] == char(254) && arr[i][j + 2] == char(254) && arr[i][j + 3] == char(254)) {
+							//cout << arr[i][j] << arr[i][j] << endl;
+							if (arr[i][j - 1] != char(254) && arr[i][j + 4] != char(254)) {
+								int l = -1;
+								t41++;
+								while (l < 2) {
+									for (int k = -1; k < 5; k++) {
+										if (arr[i + l][j + k] != char(254))
+											t41++;
+									}
+									l = l + 2;
+								}
+							}
+							if (t41 == 13)
+								s41++;
+						}
+					}
+				}
+
+				int t42 = 0;
+				for (int i = 1; i < m; i++)
+				{
+
+					for (int j = 1; j < n - 3; j++)
+					{
+						t42 = 0;
+						if (arr[j][i] == char(254) && arr[j + 1][i] == char(254) && arr[j + 2][i] == char(254) && arr[j + 3][i] == char(254)) {
+							//cout << arr[0][i] << arr[j][0] << endl;
+							if (arr[j - 1][i] != char(254) && arr[j + 4][i] != char(254)) {
+								int l = -1;
+								t42++;
+								while (l < 2) {
+									for (int k = -1; k < 5; k++) {
+										if (arr[j + k][i + l] != char(254))
+											t42++;
+									}
+									l = l + 2;
+								}
+							}
+							if (t42 == 13) {
+								s42++;
+							}
+						}
+
+					}
+
+
+				}
+				s4 = s41 + s42;
+				if (s4 != 1) {
+					cout << "The ships are not positioned correctly. 4-deck " << endl;
+					return false;
+				}
+				else {
+					cout << "The ships are positioned correctly. Perfect " << endl;
+					return true;
+				}
+
+			}
+		}
+	}
+}
+	
+
+
 
 
 
