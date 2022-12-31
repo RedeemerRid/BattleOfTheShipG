@@ -19,8 +19,7 @@ class Game
 	
 	
 public:
-	Game(){}
-	~Game() {	}
+	void  delAll();
 	void unfinishedGame();
 	bool unifinishedSet();
 	void playGame();

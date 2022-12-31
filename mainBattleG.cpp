@@ -1,7 +1,6 @@
 #include <iostream>
 #include<conio.h>
 #include<Windows.h>
-#include "Human.h"
 #include<string>
 #include "Player.h"
 #include "Game.h"
@@ -102,7 +101,9 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 int main() {
 	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
 	PostMessage(GetConsoleWindow(), WM_INPUTLANGCHANGEREQUEST, 0, (LPARAM)hkl);
+	
 	vector<string> v;
+	
 	Game gamer;
 	
 	srand(time(NULL));
@@ -151,7 +152,6 @@ int main() {
 			
 			gamer.playGame();
 			
-			//_getch();
 			break;
 		case 2://2
 			//add(a, m);

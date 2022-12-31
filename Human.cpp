@@ -9,7 +9,9 @@ using namespace std;
 Human::Human() {
 	Human::freeArr();
 }
-Human::~Human() {}
+Human::~Human() {
+	
+}
 
 void  Human::delAll() {
 	if (arr!=nullptr) {
@@ -80,9 +82,7 @@ void Human::ArangmentShip() { // cycle along the length of the ship
 
 		if (correct == Human::correctPlaceShip()) {
 			_getch();
-			for (int i = 0; i < n; i++)
-				delete[] arr[i];
-			delete[] arr;
+			delAll();
 			Human::freeArr();
 			Human::FillArr();
 		}

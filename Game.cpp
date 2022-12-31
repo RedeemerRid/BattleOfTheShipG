@@ -11,6 +11,20 @@
 #include<vector>
 using namespace std;
 
+void  Game::delAll() {
+	if (arr1 != nullptr) {
+		for (int i = 0; i < n; i++)
+			delete[] arr1[i];
+		delete[] arr1;
+	}
+	if (arr2 != nullptr) {
+		for (int i = 0; i < n; i++)
+			delete[] arr2[i];
+		delete[] arr2;
+	}
+
+}
+
 void Game::set(vector<string> &v) {
 		
 	Human human1;
@@ -112,6 +126,7 @@ void Game::playGame() {
 							cout << name1 << " -  attack " << endl << endl;
 							nameUnfinished = name1;
 							hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
+							
 						} while (hit1);
 						nameUnfinished = name2;
 						Game::writeToFile();
@@ -119,8 +134,11 @@ void Game::playGame() {
 							if (countShipPiece1 < 20) {
 								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
 								cout << endl << endl << endl;
+								cout << "if you want to stop the game, press - ' e '" << endl << endl;
 								cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
 								q = _getch();
+								if (q == 'e')
+									return ;
 								system("cls");
 							}
 							else
@@ -135,15 +153,20 @@ void Game::playGame() {
 						nameUnfinished = name2;
 
 						hit2 = Game::AtackShip(arr2, name2, arr1, name1, countShipPiece2);
+						
 					} while (hit2);
 					nameUnfinished = name1;
 					Game::writeToFile();
 					do {
 						if (countShipPiece2 < 20) {
+							cout << endl << endl;
 							cout << "The player - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
 							cout << endl << endl << endl;
-							cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+							cout << "if you want to stop the game, press - ' e '" << endl << endl << endl;
+							cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl << endl;
 							q = _getch();
+							if (q == 'e')
+								return;
 							system("cls");
 						}
 						else
@@ -153,23 +176,25 @@ void Game::playGame() {
 
 			} while (countShipPiece1 < 20 && countShipPiece2 < 20);
 			system("cls");
-			do {
-				if (countShipPiece1 == 20)
-					cout << "win player  press enter " << name1 << endl;
+			
+				do {
+					if (countShipPiece1 == 20)
+						cout << "win player  press enter " << name1 << endl;
 
-				else if (countShipPiece2 == 20)
-					cout << "win player  press enter " << name2 << endl;
-				else
-					cout << "confuse  ups " << endl;
+					else if (countShipPiece2 == 20)
+						cout << "win player  press enter " << name2 << endl;
+					else
+						cout << "confuse  ups " << endl;
 
-				string txt = "C:\\Windows\\Temp\\player.dat";
-				remove(txt.c_str());
+					string txt = "C:\\Windows\\Temp\\player.dat";
+					remove(txt.c_str());
 
-			} while (_getch() != 13);
+				} while (_getch() != 13);
+			
 			system("cls");
 		
 
-	
+			
 }
 
 
@@ -239,6 +264,7 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 		
 		
 			c = _getch();
+			
 			if (c == -32) {
 				q = _getch();
 				// up 72
