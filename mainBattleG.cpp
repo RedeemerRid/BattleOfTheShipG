@@ -16,7 +16,7 @@ void getValue(string prompt, T& value)
 	while (cin.fail())
 	{
 		cin.clear();
-		cin.ignore();
+		cin.ignore(32767, '\n');
 		cout << "Error... try again" << endl;
 		cout << prompt;
 		cin >> value;
@@ -32,9 +32,9 @@ template <>
 inline void getValue<string>(string prompt, string& value)
 {
 	cout << prompt;
-	cin.ignore();
-	getline(cin, value);
-	//getline(cin, value);
+	do {
+		getline(cin, value);
+	} while (value.empty());
 }
 
 template <>
@@ -55,12 +55,12 @@ void getValue<int>(string prompt, int& value)
 void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	
 	
-
 	int hit = rand() % 10;
 	int tr = rand() % 10;
 	cout << endl;
 
 	string player1, player2;
+	system("cls");
 	if (clickNUM == 1) {
 		do {
 			getValue("Enter your NAME player1 : ", player1);
@@ -95,6 +95,7 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 		v.push_back(player1);
 	}
 	cout << endl;
+	_getch();
 
 }
 
@@ -140,9 +141,14 @@ int main() {
 			break;
 		case 1://1
 			if (gamer.unifinishedSet()==false) {
+				
+				system("cls");
+				cout << " New game - Man vs Man " << endl << endl;
+				_getch();
 				PlayerSMove(clickNUM, v);
 				gamer.set(v);
 			}
+			
 			gamer.playGame();
 			
 			//_getch();

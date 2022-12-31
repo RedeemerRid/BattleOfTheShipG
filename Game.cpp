@@ -1,4 +1,5 @@
 #include<iostream>
+#include <stdio.h>
 #include<string>
 #include<fstream>
 #include <windows.h>
@@ -25,24 +26,46 @@ void Game::set(vector<string> &v) {
 }
 
 bool Game::unifinishedSet() {
-
-	string txt = "unfinishedGame\\player.dat";
+	//bool exit = true;
+	char q{0};
+	string txt = "C:\\Windows\\Temp\\player.dat";
 
 	ifstream iff(txt);
 	if (!iff.is_open()) {
 		return false;
 	}
 	else {
-		arr1 = new char* [n];
-		for (int i = 0; i < n; i++)
-			arr1[i] = new char[m];
-		arr2 = new char* [n];
-		for (int i = 0; i < n; i++)
-			arr2[i] = new char[m];
-		readFromFile();
-		printGame();
-		_getch();
-		return true;
+		do {
+			
+			cout << " You have an unfinished game. Do you want to continue " << endl;
+			cout << " n - not continue. new game. \ny - continue " << endl;
+			cout << "enter word : ";
+			q = _getch();
+			
+			if (q == 'y' || q == 'Y') {
+				arr1 = new char* [n];
+				for (int i = 0; i < n; i++)
+					arr1[i] = new char[m];
+				arr2 = new char* [n];
+				for (int i = 0; i < n; i++)
+					arr2[i] = new char[m];
+				readFromFile();
+				cout << "This game" << name1 << " VS " << name2 << " are your shure, CONTINUE ? : ";
+				q = _getch();
+				if (q == 'y' || q == 'Y')
+					return true;
+				else
+					return false;
+			}
+			else if (q == 'n' || q == 'N')
+				return false;
+			else {
+				cout << "open your eyes and read what is written" << endl;
+				//_getch();
+				//exit = false;
+			}
+
+		} while (q != 'y' || q != 'Y' || q != 'n' || q != 'N');
 	}
 }
 
@@ -68,74 +91,84 @@ void Game::arrangementOfShip() {
 }
 
 void Game::playGame() {
-		
-	int hit1= 1;
-	int hit2 = 1;
 	
-	do{
-		char q=' ';
-		if (nameUnfinished != name2) {
-			if (countShipPiece1 < 20 && countShipPiece2 < 20) {
-				do {
-					hit1 = 1;
-					cout << name1 << " -  attack " << endl << endl;
-					nameUnfinished = name1;
-					hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
-				} while (hit1);
-				nameUnfinished = name2;
-				Game::writeToFile();
-				do {
-					if (countShipPiece1 < 20) {
-						cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
-						cout << endl << endl << endl;
-						cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
-						q = _getch();
-						system("cls");
-					}
-					else
-						q = 13;
-				} while (q != 13);
-			}
-		}
-    	if (countShipPiece1 < 20 && countShipPiece2 < 20) {
-			do {
-				hit2 = 1;
-				cout << name2 << " -  attack " << endl << endl;
-				nameUnfinished = name2;
-				
-				hit2 = Game::AtackShip(arr2, name2, arr1, name1, countShipPiece2);
-			} while (hit2);
-			nameUnfinished = name1;
-			Game::writeToFile();
-			do {
-				if (countShipPiece2 < 20) {
-					cout << "The player - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
-					cout << endl << endl << endl;
-					cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
-					q = _getch();
-					system("cls");
-				}
-				else
-					q = 13;
-			} while (q != 13);
-		}
-		
-	} while (countShipPiece1 < 20 && countShipPiece2 < 20);
-	system("cls");
 	do {
-		if (countShipPiece1 == 20)
-			cout << "win player  press enter " << name1 << endl;
-
-	    else if (countShipPiece2 ==20)
-		    cout << "win player  press enter " << name2 << endl;
-	    else
-		    cout << "confuse  ups " << endl;
-
-		string txt = "unfinishedGame\\player.dat";
-		remove(txt.c_str());
+		system("cls");
+		cout << name2 << " step away from the screen, close your eyes, let the other player make a move " << endl << endl;
+		cout << name1<< " please push ENTER " << endl;
 
 	} while (_getch() != 13);
-	system("cls");
+
+
+			int hit1 = 1;
+			int hit2 = 1;
+
+			do {
+				char q = ' ';
+				if (nameUnfinished != name2) {
+					if (countShipPiece1 < 20 && countShipPiece2 < 20) {
+						do {
+							hit1 = 1;
+							cout << name1 << " -  attack " << endl << endl;
+							nameUnfinished = name1;
+							hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
+						} while (hit1);
+						nameUnfinished = name2;
+						Game::writeToFile();
+						do {
+							if (countShipPiece1 < 20) {
+								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
+								cout << endl << endl << endl;
+								cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+								q = _getch();
+								system("cls");
+							}
+							else
+								q = 13;
+						} while (q != 13);
+					}
+				}
+				if (countShipPiece1 < 20 && countShipPiece2 < 20) {
+					do {
+						hit2 = 1;
+						cout << name2 << " -  attack " << endl << endl;
+						nameUnfinished = name2;
+
+						hit2 = Game::AtackShip(arr2, name2, arr1, name1, countShipPiece2);
+					} while (hit2);
+					nameUnfinished = name1;
+					Game::writeToFile();
+					do {
+						if (countShipPiece2 < 20) {
+							cout << "The player - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
+							cout << endl << endl << endl;
+							cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+							q = _getch();
+							system("cls");
+						}
+						else
+							q = 13;
+					} while (q != 13);
+				}
+
+			} while (countShipPiece1 < 20 && countShipPiece2 < 20);
+			system("cls");
+			do {
+				if (countShipPiece1 == 20)
+					cout << "win player  press enter " << name1 << endl;
+
+				else if (countShipPiece2 == 20)
+					cout << "win player  press enter " << name2 << endl;
+				else
+					cout << "confuse  ups " << endl;
+
+				string txt = "C:\\Windows\\Temp\\player.dat";
+				remove(txt.c_str());
+
+			} while (_getch() != 13);
+			system("cls");
+		
+
 	
 }
 
@@ -264,7 +297,7 @@ void Game::writeToFile() {
 	string s2 = to_string(countShipPiece2);
 
 	
-	string txt = "unfinishedGame\\player.dat";
+	string txt = "C:\\Windows\\Temp\\player.dat";
 	FILE* f;
 
 	fopen_s(&f,txt.c_str(), "wb");
@@ -305,7 +338,7 @@ void Game::readFromFile() {
 	char n2[31];
 	char ss1[2];
 	char ss2[2];
-	string txt = "unfinishedGame\\player.dat";
+	string txt = "C:\\Windows\\Temp\\player.dat";
 	char c = ' ';
 	FILE* ff;
 
