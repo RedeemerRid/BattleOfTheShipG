@@ -54,6 +54,8 @@ void getValue<int>(string prompt, int& value)
 
 void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	
+	
+
 	int hit = rand() % 10;
 	int tr = rand() % 10;
 	cout << endl;
@@ -137,12 +139,12 @@ int main() {
 			cin >> exit;
 			break;
 		case 1://1
-			PlayerSMove(clickNUM, v);
-			gamer.set(v);
-			
-			gamer.printGame();
+			if (gamer.unifinishedSet()==false) {
+				PlayerSMove(clickNUM, v);
+				gamer.set(v);
+			}
 			gamer.playGame();
-			_getch();
+			//_getch();
 			break;
 		case 2://2
 			//add(a, m);

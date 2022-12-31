@@ -1,4 +1,8 @@
 #include<iostream>
+#include<string>
+#include<fstream>
+#include <windows.h>
+#include <cstdio> 
 #include<conio.h>
 #include "Game.h"
 #include "Player.h"
@@ -14,10 +18,40 @@ void Game::set(vector<string> &v) {
 	Human human2;
 	player1 = &human1;
 	player2 = &human2;
+
+
+
 	player1->setName(v[0]);
 	player2->setName(v[1]);
 	
 	arrangementOfShip();
+}
+
+bool Game::unifinishedSet() {
+	
+	string txt = "unfinishedGame\\player.dat";
+	
+	ifstream iff(txt);
+	if (!iff.is_open()) {
+		
+			return false;
+	}
+	else{
+		arr1 = new char* [n];
+		for (int i = 0; i < n; i++)
+			arr1[i] = new char[m];
+		arr2 = new char* [n];
+		for (int i = 0; i < n; i++)
+			arr2[i] = new char[m];
+		
+		readFromFile();
+		
+		printGame();
+		_getch();
+		return true;
+	}
+	
+		
 }
 
 
@@ -46,58 +80,85 @@ void Game::arrangementOfShip() {
 }
 
 void Game::playGame() {
-	int countShipPiece1{ 0 };
-	int countShipPiece2{ 0 };
+	
+		
+	
+	//cout << "The player - " << name1 << " - will be walking now " << endl;
+	//_getch();
+	//int countShipPiece1{ 0 };
+	//int countShipPiece2{ 0 };
 	int hit1= 1;
 	int hit2 = 1;
+	
 	do{
 		char q=' ';
-		if (countShipPiece2 < 20) {
-			do {
-				hit1 = 1;
-				cout << name1 << " - Player 1 attack " << endl << endl;
-				//name = name1;
-				//arr = arr1;
-				hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
-			} while (hit1);
-			do {
-				if (countShipPiece1 < 20) {
-					cout << "The player 1 - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
-					cout << endl << endl << endl;
-					cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
-					q = _getch();
-					system("cls");
-				}
-			} while (q != 13);
+		if (nameUnfinished != name2) {
+			if (countShipPiece2 < 20) {
+				do {
+					hit1 = 1;
+					cout << name1 << " -  attack " << endl << endl;
+					nameUnfinished = name1;
+					
+					hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
+					
+				} while (hit1);
+				do {
+					nameUnfinished = name2;
+					
+					if (countShipPiece1 < 20) {
+						cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
+						cout << endl << endl << endl;
+						cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+						q = _getch();
+
+						system("cls");
+					}
+				} while (q != 13);
+			}
+			Game::writeToFile();
 		}
+		
 		if (countShipPiece1 < 20) {
 			do {
 				hit2 = 1;
-				cout << name2 << " - Player 2 attack " << endl << endl;
-				//name = name2;
-				//arr = arr2;
+				cout << name2 << " -  attack " << endl << endl;
+				nameUnfinished = name2;
+				
 				hit2 = Game::AtackShip(arr2, name2, arr1, name1, countShipPiece2);
+				
 			} while (hit2);
-
 			do {
+				nameUnfinished = name1;
+				
 				if (countShipPiece2 < 20) {
-					cout << "The player 2 - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
+					cout << "The player - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
 					cout << endl << endl << endl;
 					cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
 					q = _getch();
-					system("cls");
+					
 				}
 			} while (q != 13);
 		}
+		Game::writeToFile();
+		
 	} while (countShipPiece1 < 20 && countShipPiece2 < 20);
 	system("cls");
-	if (countShipPiece1 ==20)
-		cout << "win player1 " << name1 << endl;
-	else if (countShipPiece2 ==20)
-		cout << "win player 2 " << name2 << endl;
-	else
-		cout << "confuse  " << endl;
+	do {
+		if (countShipPiece1 == 20)
+			cout << "win player /n/n/n press enter " << name1 << endl;
 
+	    else if (countShipPiece2 ==20)
+		    cout << "win player /n/n/n press enter " << name2 << endl;
+	    else
+		    cout << "confuse  ups " << endl;
+
+		string txt = "unfinishedGame\\player.dat";
+		remove(txt.c_str());
+
+
+
+	} while (_getch() != 13);
+	system("cls");
 }
 
 
@@ -157,6 +218,7 @@ void Game::AtackPrintScreen(int& y, int& x, char** arr, const string& name, char
 		}
 		cout << endl;
 	}
+	
 }
 int Game::AtackShip(char** arr, const string &name, char** arrX, const string& nameX, int &countShipPiece) {
 	int hit = 1;
@@ -218,8 +280,129 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 			Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
 		//} while (c != 13);
 			
-
+			
 	} while (hit);
 	
 	return hit;
+}
+
+void Game::writeToFile() {
+	string s1 = to_string(countShipPiece1);
+	string s2 = to_string(countShipPiece2);
+
+	
+	string txt = "unfinishedGame\\player.dat";
+	FILE* f;
+
+	fopen_s(&f,txt.c_str(), "wb");
+	
+	for (int i = 0; i < s1.size(); i++)
+		fputc(s1.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < s2.size(); i++)
+		fputc(s2.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < txt.size(); i++)
+		fputc(nameUnfinished.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < txt.size(); i++)
+		fputc(name1.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < txt.size(); i++)
+		fputc(name2.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			fputc(arr1[i][j], f);
+		}
+		fputc('\n', f);
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			fputc(arr2[i][j], f);
+		}
+		fputc('\n', f);
+	}
+	fclose(f);
+}
+
+void Game::readFromFile() {
+	char uF[31];
+	char n1[31];
+	char n2[31];
+	char ss1[2];
+	char ss2[2];
+	string txt = "unfinishedGame\\player.dat";
+	char c = ' ';
+	FILE* ff;
+
+	fopen_s(&ff, txt.c_str(), "rb");
+	c = getc(ff);
+	int i = 0;
+	while (c != '\n') {
+		ss1[i] = c;
+		c = getc(ff);
+		i++;
+	}
+	c = getc(ff);
+	i = 0;
+	while (c != '\n') {
+		ss2[i] = c;
+		c = getc(ff);
+		i++;
+	}
+
+	c = getc(ff);
+	i = 0;
+	while (c != '\n') {
+		uF[i] = c;
+		c = getc(ff);
+		i++;
+	}
+	c = getc(ff);
+	i = 0;
+	while (c != '\n') {
+		n1[i] = c;
+		c = getc(ff);
+		i++;
+	}
+	c = getc(ff);
+	i = 0;
+	while (c != '\n') {
+		n2[i] = c;
+		c = getc(ff);
+		i++;
+	}
+
+	for (int i = 0; i < n; i++) {
+		c = getc(ff);
+		int j = 0;
+		while (c != '\n') {
+			arr1[i][j] = c;
+			c = getc(ff);
+			j++;
+		}
+
+	}
+	for (int i = 0; i < n; i++) {
+		c = getc(ff);
+		int j = 0;
+		while (c != '\n') {
+			arr2[i][j] = c;
+			c = getc(ff);
+			j++;
+		}
+
+	}
+	fclose(ff);
+	name1 = n1;
+	name2 = n2;
+	nameUnfinished = uF;
+	countShipPiece1 = stoi(ss1);
+	countShipPiece2 = stoi(ss2);
+}
+
+void Game::unfinishedGame() {
+	
+
 }

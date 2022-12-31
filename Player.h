@@ -4,7 +4,8 @@ class Player
 {
 		
 public:
-	
+	//void virtual writeToFile()=0;
+	//void virtual readFromFile()=0;
 	void virtual print() = 0;
 	//void virtual FillArr()=0;
 	void virtual ArangmentShip() = 0;

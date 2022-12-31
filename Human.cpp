@@ -10,6 +10,8 @@ Human::Human() {
 	Human::freeArr();
 }
 Human::~Human() {}
+
+
 void Human::freeArr() {
 	arr = new char* [n];
 	for (int i = 0; i < n; i++)
@@ -68,7 +70,7 @@ void Human::ArangmentShip() { // cycle along the length of the ship
 			}
 		}
 
-		if (correct == !Human::correctPlaceShip()) {
+		if (correct == Human::correctPlaceShip()) {
 			_getch();
 			for (int i = 0; i < n; i++)
 				delete[] arr[i];
@@ -79,7 +81,7 @@ void Human::ArangmentShip() { // cycle along the length of the ship
 		else
 			correct = true;
 		
-	}while(correct!=false);
+	}while(correct==false);
 	_getch();
 }
 void Human::FillShipHumanHandlePrintScreen(int& y, int& x) { // displays the field and ships on the console //выводит на консоль поле и корабли

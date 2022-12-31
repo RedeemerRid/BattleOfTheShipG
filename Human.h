@@ -8,21 +8,24 @@ class Human : public Player
 	char** arr{ 0 };
 	string name;
 protected:
+	
 	void FillArr();
 	void freeArr();
 	void FillShipHumanHandle(int shipLength);
 	void FillShipHumanHandlePrintScreen(int& y, int& x);
 	void setName(string name);
+	bool correctPlaceShip();
 public:
 	Human();
 	~Human();
+	
 	void print();
 	void ArangmentShip();
 	string getName();
 	char** getArr();
 	//----
 	
-	bool correctPlaceShip();
+	
 	
 };
 
