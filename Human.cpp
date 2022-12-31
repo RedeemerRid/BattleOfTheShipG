@@ -11,6 +11,14 @@ Human::Human() {
 }
 Human::~Human() {}
 
+void  Human::delAll() {
+	if (arr!=nullptr) {
+		for (int i = 0; i < n; i++)
+			delete[] arr[i];
+		delete[] arr;
+	}
+
+}
 
 void Human::freeArr() {
 	arr = new char* [n];

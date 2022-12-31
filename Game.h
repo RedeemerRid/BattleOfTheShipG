@@ -19,6 +19,8 @@ class Game
 	
 	
 public:
+	Game(){}
+	~Game() {	}
 	void unfinishedGame();
 	bool unifinishedSet();
 	void playGame();

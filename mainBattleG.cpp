@@ -144,6 +144,7 @@ int main() {
 				gamer.set(v);
 			}
 			gamer.playGame();
+			
 			//_getch();
 			break;
 		case 2://2

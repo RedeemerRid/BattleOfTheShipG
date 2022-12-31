@@ -18,7 +18,7 @@ protected:
 public:
 	Human();
 	~Human();
-	
+	void  delAll();
 	void print();
 	void ArangmentShip();
 	string getName();
