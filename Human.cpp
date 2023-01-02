@@ -3,6 +3,7 @@
 #include<string>
 #include "Human.h"
 #include "Player.h"
+//#include "Game.h"
 using namespace std;
 
 
@@ -21,13 +22,14 @@ void  Human::delAll() {
 	}
 
 }
+string Human::getNameUnifinished() { return nameUnfinished; }
 
 void Human::freeArr() {
 	arr = new char* [n];
 	for (int i = 0; i < n; i++)
 		arr[i] = new char[m];
 }
-void Human::setName(string name) { this->name = name; }
+void Human::setName( string& name) { this->name = name; }
 string Human::getName() { return name; }
 void Human::FillArr() { // строим массив поле
 	
@@ -125,7 +127,7 @@ void Human::FillShipHumanHandlePrintScreen(int& y, int& x) { // displays the fie
 		cout << endl;
 	}
 }
-void Human::FillShipHumanHandle(int shipLength) {
+void Human::FillShipHumanHandle(int& shipLength) {
 	int countShipPiece{ 0 }; // подсчет палуб
 	int s = 0; // подсчет кораблей
 	char c; // захват enter на клавиатуре
@@ -375,3 +377,205 @@ bool Human::correctPlaceShip() {
 
 
 
+//---
+
+
+//void Human::setNameX( string& nameX) { this->nameX = nameX; }
+//void Human::setArrX(char** arrX) { this->arrX = arrX; }
+
+void Human::writeToFile(string& nameUnfinishedX) {
+
+	string s = to_string(ShipPiece);
+	
+	
+	string txt = "C:\\Windows\\Temp\\111\\" + name + ".dat";
+	FILE* f;
+
+	fopen_s(&f, txt.c_str(), "wb");
+	
+	for (int i = 0; i < s.length(); i++)
+		fputc(s.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < nameUnfinishedX.length(); i++)
+		fputc(nameUnfinishedX.c_str()[i], f);
+	fputc('\n', f);
+	for (int i = 0; i < name.length(); i++)
+		fputc(name.c_str()[i], f);
+	fputc('\n', f);
+	
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			fputc(arr[i][j], f);
+		}
+		fputc('\n', f);
+	}
+	
+	fclose(f);
+	
+}
+
+void Human::readFromFile( string& nameq) {
+	char uF[31]{0};
+	char nm[31]{0};
+	char s[2]{0};
+	
+	
+	
+	string txt = "C:\\Windows\\Temp\\111\\" + nameq + ".dat";
+	char c[]{0};
+	FILE* ff;
+
+	fopen_s(&ff, txt.c_str(), "rb");
+	if (ff) {
+		while (feof(ff) == 0) {
+			c[0] = getc(ff);
+			int i = 0;
+			while (c[i] != '/n') {
+				s[i] = c[i];
+				c[i] = getc(ff);
+				i++;
+			}
+
+			c[0] = getc(ff);
+			i = 0;
+			while (c[0] != '\n') {
+				uF[i] = c[i];
+				c[i] = getc(ff);
+				i++;
+			}
+			c[0] = getc(ff);
+			i = 0;
+			while (c[i] != '\n') {
+				nm[i] =  c[i];
+				c[i] = getc(ff);
+				i++;
+			}
+
+			for (int i = 0; i < n; i++) {
+				c[0] = getc(ff);
+				int j = 0;
+				while (c[j] != '\n') {
+					arr[i][j] = c[j];
+					c[j] = getc(ff);
+					j++;
+				}
+
+			}
+		}
+		fclose(ff);
+	}
+	
+	
+	
+	name = nm;
+	nameUnfinished = uF;
+	ShipPiece = stoi(s);
+	
+
+}
+
+
+
+void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships on the console //выводит на консоль поле и корабли
+
+	system("CLS");
+	cout << name << " Guess where the boat is " << endl << endl;
+
+	for (size_t i = 0; i < n; i++) {
+		for (size_t j = 0; j < m; j++) {
+
+			if (i == 0 || j == 0) {
+				cout << arr[i][j] << " ";
+
+			}
+			if (j == x && i == y && j > 20 && i > 0) {
+				if (arr[i][j] != char(254) && arr[i][j] != '*')
+					cout << "+" << " ";
+				else
+					cout << arr[i][j] << " ";
+			}
+			else if (i > 0 && j > 0) {
+				if (i == 11 || j == 11 || j == 31) {
+					cout << arr[i][j] << " ";
+
+				}
+				else if (arr[i][j] != char(254) && arr[i][j] != '*' && arr[i][j] != char(253) && arr[i][j] != 'X' && (j < 12 || (j > 20 && j < m - 1))) {
+					cout << char(250) << " ";
+				}
+				else
+					cout << arr[i][j] << " ";
+			}
+		}
+		cout << endl;
+	}
+
+}
+
+int Human::AtackShip(char** arrX, const string& nameX) {
+	//this->arrX = arrX;
+	int hit = 1;
+	char c; // захват enter на клавиатуре
+	char q; // захват стрелки на клавиатуре
+	int x = 21;
+	int y = 1;
+	
+	
+	Human::AtackPrintScreen(y, x);
+	do {
+		
+
+		c = _getch();
+		
+		if (c == -32) {
+			q = _getch();
+			// up 72
+			if (q == 72 && y > 1) {
+				y--;
+			}
+			// doarrn 80
+			if (q == 80 && y < 10) {
+				y++;
+			}
+			// left 75
+			if (q == 75 && x > 21) {
+				x--;
+			}
+			// right 77
+			if (q == 77 && x < 30) {
+				x++;
+			}
+		}
+		else if (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) && arr[y][x] != 'X' && c == 'z') {
+			if (arrX[y][x - 20] == char(254)) {
+				arr[y][x] = arrX[y][x - 20];
+				arrX[y][x - 20] = 'X';
+				ShipPiece++;
+
+			}
+			else {
+				arr[y][x] = char(253);
+				cout << "LOOOOOOSEr";
+				hit = 0;
+
+			}
+
+		}
+		else if (arr[y][x] != char(254) && arr[y][x] != char(253) && arr[y][x] != 'X' && c == 'x') {
+			arr[y][x] = '*';
+
+
+		}
+		else if (arr[y][x] == '*' && c == 'c') {
+			arr[y][x] = ' ';
+
+		}
+		
+		Human::AtackPrintScreen(y, x);
+		
+		Human::writeToFile(name);
+		
+	} while (hit);
+	
+	return hit;
+}
+int Human::getShipPice() { return ShipPiece; }

@@ -7,6 +7,8 @@
 #include<vector>
 
 using namespace std;
+
+
 template <class T>
 void getValue(string prompt, T& value)
 {
@@ -85,11 +87,15 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	cout << "Roulette gave out a number : " << hit << endl;
 	if (hit < 5) {
 		cout << "Goes first : " << player1 << endl;
+		player1 = "1_"+player1;
+		player2 = "2_"+player2;
 		v.push_back(player1);
 		v.push_back(player2);
 	}
 	else {
 		cout << "Goes first : " << player2 << endl;
+		player1 = "2_ "+player1;
+		player2 = "1_ "+player2;
 		v.push_back(player2);
 		v.push_back(player1);
 	}
@@ -150,7 +156,7 @@ int main() {
 				gamer.set(v);
 			}
 			
-			gamer.playGame();
+			//gamer.playGame();
 			
 			break;
 		case 2://2
