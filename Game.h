@@ -2,6 +2,7 @@
 #include<iostream>
 #include "Player.h"
 #include "Human.h"
+#include "Comp.h"
 //#include<string>
 #include<vector>
 class Game
@@ -24,7 +25,7 @@ public:
 	
 	void  delAll();
 	//void unfinishedGame();
-	
+	bool ManCompShoosw(const string& name);
 	void playGame();
 	void set(vector<string> &v);
 	//void printGame();

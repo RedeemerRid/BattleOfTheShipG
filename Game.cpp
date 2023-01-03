@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Human.h"
+#include "Comp.h"
 #include<vector>
 #include<filesystem>
 using namespace std;
@@ -25,25 +26,46 @@ void  Game::delAll() {
 
 }
 
+bool Game::ManCompShoosw(const string& name) {
+	if ((name1 == "1_TerminatorComp" || name == "1_RobocopComp" || name2 == "1_RobocopComp" || name1 == "1_TerminatorComp" || name2 == "1_TerminatorComp" || name1 == "1_RobocopComp" || name2 == "1_RobocopComp"))
+		return true;
+}
+
 void Game::set(vector<string> &v) {
 	cout << "set" << endl;
-	Human human1;
-	Human human2;
-	player1 = &human1;
-	player2 = &human2;
-	
 	name1 = v[0];
 	name2 = v[1];
+	cout << name1 << " - " << name2;
+	_getch();
+	if (name1 == "1_TerminatorComp" || name2 == "1_TerminatorComp" || name1 == "1_RobocopComp" || name2 == "1_RobocopComp" || name1 == "2_TerminatorComp" || name2 == "2_TerminatorComp" || name1 == "2_RobocopComp" || name2 == "2_RobocopComp") {
+		Human human;
+		Comp comp;
+		if (name1 == "1_TerminatorComp" || name1 == "1_RobocopComp") {
+			player1 = &comp;
+			player2 = &human;
+		}
+		else {
+			player1 = &human;
+			player2 = &comp;
+		}
+	}
+	else {
+		Human human1;
+		Human human2;
+		player1 = &human1;
+		player2 = &human2;
+	}
+	
 	player1->setName(name1);
 	player2->setName(name2);
 	//player1->setNameX(name2);
 	//player2->setNameX(name1);
 	
 	Game::arrangementOfShip();
-	Game::playGame();
-	v.clear();
-	player1->delAll();
-	player2->delAll();
+	//Game::playGame();
+	//v.clear();
+	//player1->delAll();
+	//player2->delAll();
 	
 
 }
@@ -141,6 +163,7 @@ void Game::arrangementOfShip() {
 	arr1 = player1->getArr();
 	//player2->setArrX(arr1);
 	//name1 = player1->getName();
+	player1->print();
 	cout << " thank you, press enter so that another player can arrange their ships" << endl;
 	_getch();
 	system("cls");
@@ -150,6 +173,7 @@ void Game::arrangementOfShip() {
 	arr2 = player2->getArr();
 	//player1->setArrX(arr2);
 	//name2 = player2->getName();
+	player2->print();
 	cout << " thank you, press enter to continue the game" << endl;
 	_getch();
 	system("cls");

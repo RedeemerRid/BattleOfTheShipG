@@ -29,7 +29,7 @@ void  Human::delAll() {
 	}
 
 }
-//string Human::getNameUnifinished() { return nameUnfinished; }
+string Human::getNameUnifinished() { return nameUnfinished; }
 
 void Human::freeArr() {
 	arr = new char* [n];

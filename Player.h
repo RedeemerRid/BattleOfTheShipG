@@ -21,7 +21,7 @@ public:
 	void virtual setName(std::string& name) = 0;
 	std::string virtual getName() = 0;
 	char virtual **getArr() = 0;
-	bool virtual correctPlaceShip() = 0;
+	//bool virtual correctPlaceShip() = 0;
 	int virtual getShipPice() = 0;
 	//----
 	int virtual AtackShip(char** arrX, const std::string& nameX) = 0;

@@ -2,7 +2,7 @@
 #include<iostream>
 #include "Player.h"
 using namespace std;
-class Human : public Player
+class Comp :  public Player
 {
 	int n = 12, m = 32;
 	int countShipPiece = 0;
@@ -12,24 +12,25 @@ class Human : public Player
 	string name;
 	string nameUnfinished;
 protected:
+	int rrand();
 	//string base_name(string const& path);
 	void FillArr();
 	void freeArr();
-	void FillShipHumanHandle(int &shipLength);
-	void FillShipHumanHandlePrintScreen(int& y, int& x);
-	
-	bool correctPlaceShip();
+	//void ArangmentShip();
+	//void FillShipHumanHandlePrintScreen(int& y, int& x);
+
+	//bool correctPlaceShip();
 
 	//void writeToFile(string& nameUnfinishedX);
 	//void readFromFile( string& nameq);
 
 
 public:
-	Human();
-	~Human();
+	Comp();
+	~Comp();
 	void setName(string& name);
 	string getNameUnifinished();
-	
+
 	void  delAll();
 	void print();
 	void ArangmentShip() override;
@@ -38,11 +39,11 @@ public:
 	int getShipPice();
 	//void setNameX( string& nameX);
 	//void setArrX(char** arrX);
-	
+
 	//----
-	
+
 	int AtackShip(char** arrX, const string& nameX);
 	void AtackPrintScreen(int& y, int& x);
-	
+
 };
 

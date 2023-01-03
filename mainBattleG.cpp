@@ -77,9 +77,9 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 			getValue("Enter your NAME player1 : ", player1);
 		} while (player1.empty());
 		if (tr > 5)
-			player2 = "Terminator";
+			player2 = "TerminatorComp";
 		else
-			player2 = "Robocop";
+			player2 = "RobocopComp";
 	}
 	else if (clickNUM == 3) {
 		player2 = "TerminatorComp";
@@ -166,7 +166,11 @@ int main() {
 			
 			break;
 		case 2://2
-			//add(a, m);
+			cout << " New game - Man vs Comp " << endl << endl;
+			_getch();
+			PlayerSMove(clickNUM, v);
+			gamer.set(v);
+			gamer.delAll();
 			break;
 		case 3://3
 			//loaddata(a, m);
