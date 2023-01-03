@@ -1,16 +1,17 @@
 #include<iostream>
-#include <stdio.h>
-#include<string>
+//#include <stdio.h>
+//#include<string>
 #include<fstream>
-#include <windows.h>
-#include <cstdio> 
+//#include <windows.h>
+//#include <cstdio> 
 #include<conio.h>
 #include "Game.h"
 #include "Player.h"
 #include "Human.h"
 #include<vector>
+#include<filesystem>
 using namespace std;
-
+namespace fs = filesystem;
 void  Game::delAll() {
 	if (arr1 != nullptr) {
 		for (int i = 0; i < n; i++)
@@ -26,70 +27,116 @@ void  Game::delAll() {
 }
 
 void Game::set(vector<string> &v) {
-		
+	cout << "set" << endl;
 	Human human1;
 	Human human2;
 	player1 = &human1;
 	player2 = &human2;
-	countShipPiece1=0;
-	countShipPiece2=0;
-	player1->setName(v[0]);
-	player2->setName(v[1]);
 	
-	arrangementOfShip();
+	name1 = v[0];
+	name2 = v[1];
+	player1->setName(name1);
+	player2->setName(name2);
+	//player1->setNameX(name2);
+	//player2->setNameX(name1);
+	
+	Game::arrangementOfShip();
+	Game::playGame();
 }
 
 bool Game::unifinishedSet() {
-	//bool exit = true;
-	char q{0};
-	string txt = "C:\\Windows\\Temp\\player.dat";
-
-	ifstream iff(txt);
-	if (!iff.is_open()) {
-		return false;
+	string txt = "C:\\Windows\\Temp\\111\\";
+	fs::path path(txt);
+	if (!fs::is_directory(path)) {
+		cout << "non directiry" << endl;
+		_getch();
 	}
 	else {
-		do {
-			
-			cout << " You have an unfinished game. Do you want to continue " << endl;
-			cout << " n - not continue. new game. \ny - continue " << endl;
-			cout << "enter word : ";
-			q = _getch();
-			
-			if (q == 'y' || q == 'Y') {
-				arr1 = new char* [n];
-				for (int i = 0; i < n; i++)
-					arr1[i] = new char[m];
-				arr2 = new char* [n];
-				for (int i = 0; i < n; i++)
-					arr2[i] = new char[m];
-				readFromFile();
-				cout << "This game" << name1 << " VS " << name2 << " are your shure, CONTINUE ? : ";
-				q = _getch();
-				if (q == 'y' || q == 'Y')
-					return true;
-				else
-					return false;
-			}
-			else if (q == 'n' || q == 'N')
-				return false;
-			else {
-				cout << "open your eyes and read what is written" << endl;
-				//_getch();
-				//exit = false;
-			}
+		if (fs::is_empty(path)) {
+			cout << " directory empty" << endl;
+			_getch();
+			return false;
+		}
+		else {
 
-		} while (q != 'y' || q != 'Y' || q != 'n' || q != 'N');
+			Game::base_name();
+			char q;
+
+			string txt1 = "C:\\Windows\\Temp\\111\\" + vgame[0] + ".dat";
+			string txt2 = "C:\\Windows\\Temp\\111\\" + vgame[1] + ".dat";
+
+			ifstream iff1(txt1);
+			ifstream iff2(txt2);
+			if (!iff2.is_open() || !iff1.is_open()) {
+				cout << "false" << endl;
+				_getch();
+				return false;
+			}
+			else {
+
+				do {
+
+					cout << " You have an unfinished game. Do you want to continue " << endl;
+					cout << " n - not continue. new game. \ny - continue " << endl;
+					cout << "enter word : ";
+					q = _getch();
+
+					if (q == 'y' || q == 'Y') {
+
+
+
+						Human human1;
+						Human human2;
+						player1 = &human1;
+						player2 = &human2;
+						name1 = vgame[0];
+						name2 = vgame[1];
+
+						player1->readFromFile(name1);
+						player2->readFromFile(name2);
+						countShipPiece1 = player1->getShipPice();
+						countShipPiece2 = player2->getShipPice();
+
+
+						arr1 = player1->getArr();
+						arr2 = player2->getArr();
+
+						//player1->setNameX(name2);
+						//player2->setNameX(name1);
+						nameUnfinished = player1->getNameUnifinished();
+						//player2->getSetUnifinished();
+
+						_getch();
+
+						cout << "This game" << name1 << " VS " << name2 << " are your shure, CONTINUE ? : ";
+						q = _getch();
+						if (q == 'y' || q == 'Y')
+							Game::playGame();
+						else
+							return false;
+					}
+					else if (q == 'n' || q == 'N')
+						return false;
+
+
+				} while (q != 'y' || q != 'Y' || q != 'n' || q != 'N');
+				system("pause");
+
+			}
+		}
+
+
 	}
 }
 
 void Game::arrangementOfShip() {
 	system("cls");
 	cout << "Man VS Man" << endl;
-	cout << " Player " << name1 << endl;;
+	cout << " Player " << name1 << endl;
 	player1->ArangmentShip();
 	arr1 = player1->getArr();
-	name1 = player1->getName();
+	//player2->setArrX(arr1);
+	//name1 = player1->getName();
 	cout << " thank you, press enter so that another player can arrange their ships" << endl;
 	_getch();
 	system("cls");
@@ -97,11 +144,14 @@ void Game::arrangementOfShip() {
 	cout << "Player " << name2 << endl;
 	player2->ArangmentShip();
 	arr2 = player2->getArr();
-	name2 = player2->getName();
+	//player1->setArrX(arr2);
+	//name2 = player2->getName();
 	cout << " thank you, press enter to continue the game" << endl;
 	_getch();
 	system("cls");
-	Game::writeToFile();
+	player1->writeToFile(nameUnfinished);
+	player2->writeToFile(nameUnfinished);
+
 }
 
 void Game::playGame() {
@@ -125,11 +175,12 @@ void Game::playGame() {
 							hit1 = 1;
 							cout << name1 << " -  attack " << endl << endl;
 							nameUnfinished = name1;
-							hit1 = Game::AtackShip(arr1, name1, arr2, name2, countShipPiece1);
-							
+							hit1 = player1->AtackShip(arr2, name2);
+							countShipPiece1 = player1->getShipPice();
 						} while (hit1);
 						nameUnfinished = name2;
-						Game::writeToFile();
+						player1->writeToFile(nameUnfinished);
+						player2->writeToFile(nameUnfinished);
 						do {
 							if (countShipPiece1 < 20) {
 								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
@@ -152,11 +203,12 @@ void Game::playGame() {
 						cout << name2 << " -  attack " << endl << endl;
 						nameUnfinished = name2;
 
-						hit2 = Game::AtackShip(arr2, name2, arr1, name1, countShipPiece2);
-						
+						hit2 = player2->AtackShip(arr1, name1);
+						countShipPiece2 = player2->getShipPice();
 					} while (hit2);
 					nameUnfinished = name1;
-					Game::writeToFile();
+					player1->writeToFile(nameUnfinished);
+					player2->writeToFile(nameUnfinished);
 					do {
 						if (countShipPiece2 < 20) {
 							cout << endl << endl;
@@ -186,10 +238,11 @@ void Game::playGame() {
 					else
 						cout << "confuse  ups " << endl;
 
-					string txt = "C:\\Windows\\Temp\\player.dat";
-					remove(txt.c_str());
+					string txt3 = "C:\\Windows\\Temp\\111\\";
+					remove(txt3.c_str());
 
 				} while (_getch() != 13);
+				_getch();
 			
 			system("cls");
 		
@@ -197,6 +250,17 @@ void Game::playGame() {
 			
 }
 
+void Game::base_name(){
+
+	string txt = "C:\\Windows\\Temp\\111";
+	
+		for (const auto& file : filesystem::directory_iterator(txt)) {
+
+			vgame.push_back(file.path().stem().string().substr(file.path().stem().string().find_last_of("/\\") + 1));
+
+		}
+	
+}
 
 
 void Game::printGame() {
@@ -219,6 +283,7 @@ void Game::printGame() {
 }
 
 
+/*
 void Game::AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX) { // displays the field and ships on the console //выводит на консоль поле и корабли
 
 	system("CLS");
@@ -259,6 +324,7 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 	char q; // захват стрелки на клавиатуре
 	int x = 21;
 	int y = 1;
+	
 	Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
 	do {
 		
@@ -289,7 +355,7 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 					arr[y][x] = arrX[y][x-20];
 					arrX[y][x - 20] = 'X';
 					countShipPiece++;
-					
+								
 				}
 				else {
 					arr[y][x] = char(253);
@@ -297,7 +363,7 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 					hit = 0;
 					
 				}
-				
+			
 			}
 			else if (arr[y][x] != char(254) && arr[y][x] != char(253) && arr[y][x] != 'X' && c == 'x') {
 				arr[y][x] = '*';
@@ -317,7 +383,9 @@ int Game::AtackShip(char** arr, const string &name, char** arrX, const string& n
 	
 	return hit;
 }
+*/
 
+/*
 void Game::writeToFile() {
 	string s1 = to_string(countShipPiece1);
 	string s2 = to_string(countShipPiece2);
@@ -432,9 +500,12 @@ void Game::readFromFile() {
 	nameUnfinished = uF;
 	countShipPiece1 = stoi(ss1);
 	countShipPiece2 = stoi(ss2);
+
+
 }
 
 void Game::unfinishedGame() {
 	
 
 }
+*/
