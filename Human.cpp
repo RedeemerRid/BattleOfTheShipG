@@ -3,6 +3,7 @@
 #include<string>
 #include "Human.h"
 #include "Player.h"
+#include<fstream>
 //#include "Game.h"
 using namespace std;
 
@@ -11,18 +12,24 @@ Human::Human() {
 	Human::freeArr();
 }
 Human::~Human() {
-	
+	//Human::delAll();
+	//countShipPiece= 0;
+	//ShipPiece = 0;
+	//name = " ";
 }
 
 void  Human::delAll() {
-	if (arr!=nullptr) {
+	if (arr) {
 		for (int i = 0; i < n; i++)
 			delete[] arr[i];
 		delete[] arr;
+	countShipPiece= 0;
+    ShipPiece = 0;
+    name.erase();
 	}
 
 }
-string Human::getNameUnifinished() { return nameUnfinished; }
+//string Human::getNameUnifinished() { return nameUnfinished; }
 
 void Human::freeArr() {
 	arr = new char* [n];
@@ -382,10 +389,32 @@ bool Human::correctPlaceShip() {
 
 //void Human::setNameX( string& nameX) { this->nameX = nameX; }
 //void Human::setArrX(char** arrX) { this->arrX = arrX; }
-
+/*
 void Human::writeToFile(string& nameUnfinishedX) {
+	
+	string txt = "C:\\Windows\\Temp\\111\\" + name + ".txt";
+	ofstream os(txt, ios::binary);
 
-	string s = to_string(ShipPiece);
+
+	os.write((char*)&ShipPiece, sizeof(int)); // Запись POD-члена
+	size_t len = nameUnfinishedX.length() + 1;       // Длина с нулевым байтом
+	os.write((char*)&nameUnfinishedX, sizeof(len)); // Запись длины
+	os.write((char*)nameUnfinishedX.c_str(), len);
+
+	len = name.length() + 1;       // Длина с нулевым байтом
+	os.write((char*)&name, sizeof(len)); // Запись длины
+	os.write((char*)name.c_str(), len);
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 32; j++) {
+			os << arr[i][j];
+		}
+	}
+
+	os.close();
+
+	/*
+	
+	string s = to_string(ShipPiece).c_str();
 	
 	
 	string txt = "C:\\Windows\\Temp\\111\\" + name + ".dat";
@@ -393,13 +422,13 @@ void Human::writeToFile(string& nameUnfinishedX) {
 
 	fopen_s(&f, txt.c_str(), "wb");
 	
-	for (int i = 0; i < s.length(); i++)
-		fputc(s.c_str()[i], f);
+	for (int i = 0; i < s.size() + 1; i++)
+		fputc(s[i], f);
 	fputc('\n', f);
-	for (int i = 0; i < nameUnfinishedX.length(); i++)
+	for (int i = 0; i < nameUnfinishedX.length()+1; i++)
 		fputc(nameUnfinishedX.c_str()[i], f);
 	fputc('\n', f);
-	for (int i = 0; i < name.length(); i++)
+	for (int i = 0; i < name.length()+1; i++)
 		fputc(name.c_str()[i], f);
 	fputc('\n', f);
 	
@@ -413,50 +442,84 @@ void Human::writeToFile(string& nameUnfinishedX) {
 	fclose(f);
 	
 }
-
+*/
+/*
 void Human::readFromFile( string& nameq) {
+	
+	string txt = "C:\\Windows\\Temp\\111\\" + nameq + ".txt";
+
+	ifstream in(txt, ios::binary);
+
+	in.read((char*)&ShipPiece, sizeof(int));   // Чтение POD-члена
+	
+	size_t len;                         // Переменная для длины
+	in.read((char*)&len, sizeof(len));  // Чтение длины записанной строки
+	char* buf = new char[len];         // Выделение буфера для чтения
+	in.read(buf, len);                   // Чтение (с нулевым байтом)
+	nameUnfinished = buf;                         // Присвоение считанной строки члену
+	delete[]buf;
+
+	in.read((char*)&len, sizeof(len));  // Чтение длины записанной строки
+	char* buf1 = new char[len];         // Выделение буфера для чтения
+	in.read(buf, len);                   // Чтение (с нулевым байтом)
+	name = buf1;                         // Присвоение считанной строки члену
+	delete[]buf1;
+
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 32; j++) {
+			in >> arr[i][j];
+		}
+	}
+
+		
+	in.close();
+
+	
+	/*
 	char uF[31]{0};
 	char nm[31]{0};
-	char s[2]{0};
+	char s[3]{0};
 	
 	
 	
 	string txt = "C:\\Windows\\Temp\\111\\" + nameq + ".dat";
-	char c[]{0};
+	char c=' ';
 	FILE* ff;
 
 	fopen_s(&ff, txt.c_str(), "rb");
 	if (ff) {
 		while (feof(ff) == 0) {
-			c[0] = getc(ff);
+			c = getc(ff);
+			
 			int i = 0;
-			while (c[i] != '/n') {
-				s[i] = c[i];
-				c[i] = getc(ff);
+			while (c != '/n') {
+				s[i] = c;
+				
+				c = getc(ff);
 				i++;
 			}
 
-			c[0] = getc(ff);
+			c = getc(ff);
 			i = 0;
-			while (c[0] != '\n') {
-				uF[i] = c[i];
-				c[i] = getc(ff);
+			while (c != '\n') {
+				uF[i] = c;
+				c = getc(ff);
 				i++;
 			}
-			c[0] = getc(ff);
+			c = getc(ff);
 			i = 0;
-			while (c[i] != '\n') {
-				nm[i] =  c[i];
-				c[i] = getc(ff);
+			while (c != '\n') {
+				nm[i] =  c;
+				c = getc(ff);
 				i++;
 			}
 
 			for (int i = 0; i < n; i++) {
-				c[0] = getc(ff);
+				c = getc(ff);
 				int j = 0;
-				while (c[j] != '\n') {
-					arr[i][j] = c[j];
-					c[j] = getc(ff);
+				while (c != '\n') {
+					arr[i][j] = c;
+					c = getc(ff);
 					j++;
 				}
 
@@ -471,15 +534,15 @@ void Human::readFromFile( string& nameq) {
 	nameUnfinished = uF;
 	ShipPiece = stoi(s);
 	
-
+	
 }
-
+*/
 
 
 void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships on the console //выводит на консоль поле и корабли
 
 	system("CLS");
-	cout << name << " Guess where the boat is " << endl << endl;
+	cout << name << "Atack   -    Guess where the boat is " << endl << endl;
 
 	for (size_t i = 0; i < n; i++) {
 		for (size_t j = 0; j < m; j++) {
@@ -512,7 +575,7 @@ void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships o
 }
 
 int Human::AtackShip(char** arrX, const string& nameX) {
-	//this->arrX = arrX;
+	
 	int hit = 1;
 	char c; // захват enter на клавиатуре
 	char q; // захват стрелки на клавиатуре
@@ -572,7 +635,7 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 		
 		Human::AtackPrintScreen(y, x);
 		
-		Human::writeToFile(name);
+		//Human::writeToFile(name);
 		
 	} while (hit);
 	

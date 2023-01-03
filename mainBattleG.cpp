@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Game.h"
 #include<vector>
+#include<fstream>
 
 using namespace std;
 
@@ -94,8 +95,8 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	}
 	else {
 		cout << "Goes first : " << player2 << endl;
-		player1 = "2_ "+player1;
-		player2 = "1_ "+player2;
+		player1 = "2_"+player1;
+		player2 = "1_"+player2;
 		v.push_back(player2);
 		v.push_back(player1);
 	}
@@ -103,6 +104,8 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	_getch();
 
 }
+
+
 
 int main() {
 	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
@@ -147,14 +150,17 @@ int main() {
 			cin >> exit;
 			break;
 		case 1://1
-			if (gamer.unifinishedSet()==false) {
+			//if (gamer.unifinishedSet()==false) {
 				
-				system("cls");
+				//system("cls");
 				cout << " New game - Man vs Man " << endl << endl;
 				_getch();
 				PlayerSMove(clickNUM, v);
 				gamer.set(v);
-			}
+				gamer.delAll();
+				
+				
+			//}
 			
 			//gamer.playGame();
 			

@@ -2,6 +2,7 @@
 #include<iostream>
 #include "Player.h"
 #include "Human.h"
+//#include<string>
 #include<vector>
 class Game
 {
@@ -15,19 +16,20 @@ class Game
 	char** arr2{ 0 };
 	string name1,  name2;
 	string nameUnfinished;
-	vector<string> vgame;
+	//vector<string> vgame;
 	
 	
 	
 public:
-	//void writeToFile();
+	
 	void  delAll();
 	//void unfinishedGame();
-	bool unifinishedSet();
+	
 	void playGame();
 	void set(vector<string> &v);
-	void printGame();
+	//void printGame();
 protected:
+	bool unifinishedSet();
 	void base_name();
 	void arrangementOfShip();
 	

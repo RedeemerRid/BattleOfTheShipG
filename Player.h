@@ -5,11 +5,13 @@ class Player
 
 	
 public:
-	std::string virtual getNameUnifinished() = 0;
+	//Player() {}
+	//virtual ~Player() {};
+	//std::string virtual getNameUnifinished() = 0;
 	//void virtual setNameX(std::string& nameX)=0;
 	//void virtual setArrX(char** arrX)=0;
-	void virtual writeToFile(std::string& nameUnfinishedX)=0;
-	void virtual readFromFile(std::string& nameq) = 0;
+	//void virtual writeToFile(std::string& nameUnfinishedX)=0;
+	//void virtual readFromFile(std::string& nameq) = 0;
 	
 	void virtual delAll()=0;
 	

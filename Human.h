@@ -10,21 +10,26 @@ class Human : public Player
 	char** arr{ 0 };
 	//char** arrX{ 0 };
 	string name;
-	string nameUnfinished;
+	//string nameUnfinished;
 protected:
-	string base_name(string const& path);
+	//string base_name(string const& path);
 	void FillArr();
 	void freeArr();
 	void FillShipHumanHandle(int &shipLength);
 	void FillShipHumanHandlePrintScreen(int& y, int& x);
-	void setName( string& name);
+	
 	bool correctPlaceShip();
+
+	//void writeToFile(string& nameUnfinishedX);
+	//void readFromFile( string& nameq);
+
+
 public:
 	Human();
 	~Human();
+	void setName(string& name);
 	string getNameUnifinished();
-	void writeToFile(string& nameUnfinishedX);
-	void readFromFile( string& name);
+	
 	void  delAll();
 	void print();
 	void ArangmentShip();

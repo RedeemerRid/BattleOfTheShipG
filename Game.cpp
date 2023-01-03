@@ -13,16 +13,15 @@
 using namespace std;
 namespace fs = filesystem;
 void  Game::delAll() {
-	if (arr1 != nullptr) {
-		for (int i = 0; i < n; i++)
-			delete[] arr1[i];
-		delete[] arr1;
-	}
-	if (arr2 != nullptr) {
-		for (int i = 0; i < n; i++)
-			delete[] arr2[i];
-		delete[] arr2;
-	}
+	
+	countShipPiece1 = 0; 
+	ShipPiece1 = 0;
+	countShipPiece2 = 0;
+	ShipPiece2 = 0;
+	name1.erase();
+	name2.erase();
+	nameUnfinished.erase();
+	//vgame.clear();
 
 }
 
@@ -42,8 +41,13 @@ void Game::set(vector<string> &v) {
 	
 	Game::arrangementOfShip();
 	Game::playGame();
-}
+	v.clear();
+	player1->delAll();
+	player2->delAll();
+	
 
+}
+/*
 bool Game::unifinishedSet() {
 	string txt = "C:\\Windows\\Temp\\111\\";
 	fs::path path(txt);
@@ -62,8 +66,8 @@ bool Game::unifinishedSet() {
 			Game::base_name();
 			char q;
 
-			string txt1 = "C:\\Windows\\Temp\\111\\" + vgame[0] + ".dat";
-			string txt2 = "C:\\Windows\\Temp\\111\\" + vgame[1] + ".dat";
+			string txt1 = "C:\\Windows\\Temp\\111\\" + vgame[0] + ".txt";
+			string txt2 = "C:\\Windows\\Temp\\111\\" + vgame[1] + ".txt";
 
 			ifstream iff1(txt1);
 			ifstream iff2(txt2);
@@ -128,7 +132,7 @@ bool Game::unifinishedSet() {
 
 	}
 }
-
+*/
 void Game::arrangementOfShip() {
 	system("cls");
 	cout << "Man VS Man" << endl;
@@ -149,8 +153,8 @@ void Game::arrangementOfShip() {
 	cout << " thank you, press enter to continue the game" << endl;
 	_getch();
 	system("cls");
-	player1->writeToFile(nameUnfinished);
-	player2->writeToFile(nameUnfinished);
+	//player1->writeToFile(nameUnfinished);
+	//player2->writeToFile(nameUnfinished);
 
 }
 
@@ -173,14 +177,14 @@ void Game::playGame() {
 					if (countShipPiece1 < 20 && countShipPiece2 < 20) {
 						do {
 							hit1 = 1;
-							cout << name1 << " -  attack " << endl << endl;
+							//cout << name1 << " -  attack " << endl << endl;
 							nameUnfinished = name1;
 							hit1 = player1->AtackShip(arr2, name2);
 							countShipPiece1 = player1->getShipPice();
 						} while (hit1);
 						nameUnfinished = name2;
-						player1->writeToFile(nameUnfinished);
-						player2->writeToFile(nameUnfinished);
+						//player1->writeToFile(nameUnfinished);
+						//player2->writeToFile(nameUnfinished);
 						do {
 							if (countShipPiece1 < 20) {
 								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
@@ -200,15 +204,16 @@ void Game::playGame() {
 				if (countShipPiece1 < 20 && countShipPiece2 < 20) {
 					do {
 						hit2 = 1;
-						cout << name2 << " -  attack " << endl << endl;
+						//cout << name2 << " -  attack " << endl << endl;
 						nameUnfinished = name2;
 
 						hit2 = player2->AtackShip(arr1, name1);
 						countShipPiece2 = player2->getShipPice();
 					} while (hit2);
 					nameUnfinished = name1;
-					player1->writeToFile(nameUnfinished);
-					player2->writeToFile(nameUnfinished);
+					//player1->writeToFile(nameUnfinished);
+					//player2->writeToFile(nameUnfinished);
+					
 					do {
 						if (countShipPiece2 < 20) {
 							cout << endl << endl;
@@ -231,10 +236,10 @@ void Game::playGame() {
 			
 				do {
 					if (countShipPiece1 == 20)
-						cout << "win player  press enter " << name1 << endl;
+						cout << "win player " << name1 << " press enter " << endl;
 
 					else if (countShipPiece2 == 20)
-						cout << "win player  press enter " << name2 << endl;
+						cout << "win player " << name2 << " press enter " << endl;
 					else
 						cout << "confuse  ups " << endl;
 
@@ -243,13 +248,14 @@ void Game::playGame() {
 
 				} while (_getch() != 13);
 				_getch();
-			
+				
+				
 			system("cls");
 		
 
 			
 }
-
+/*
 void Game::base_name(){
 
 	string txt = "C:\\Windows\\Temp\\111";
@@ -261,8 +267,8 @@ void Game::base_name(){
 		}
 	
 }
-
-
+*/
+/*
 void Game::printGame() {
 	
 	for (size_t i = 0; i < n; i++) {
@@ -281,7 +287,7 @@ void Game::printGame() {
 	}
 
 }
-
+*/
 
 /*
 void Game::AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX) { // displays the field and ships on the console //выводит на консоль поле и корабли
