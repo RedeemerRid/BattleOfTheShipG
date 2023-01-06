@@ -25,7 +25,7 @@ public:
 	
 	void  delAll();
 	//void unfinishedGame();
-	bool ManCompShoosw(const string& name);
+	
 	void playGame();
 	void set(vector<string> &v);
 	//void printGame();

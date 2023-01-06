@@ -26,10 +26,7 @@ void  Game::delAll() {
 
 }
 
-bool Game::ManCompShoosw(const string& name) {
-	if ((name1 == "1_TerminatorComp" || name == "1_RobocopComp" || name2 == "1_RobocopComp" || name1 == "1_TerminatorComp" || name2 == "1_TerminatorComp" || name1 == "1_RobocopComp" || name2 == "1_RobocopComp"))
-		return true;
-}
+
 
 void Game::set(vector<string> &v) {
 	cout << "set" << endl;
@@ -62,10 +59,10 @@ void Game::set(vector<string> &v) {
 	//player2->setNameX(name1);
 	
 	Game::arrangementOfShip();
-	//Game::playGame();
-	//v.clear();
-	//player1->delAll();
-	//player2->delAll();
+	Game::playGame();
+	v.clear();
+	player1->delAll();
+	player2->delAll();
 	
 
 }
