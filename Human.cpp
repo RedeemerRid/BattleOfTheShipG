@@ -539,6 +539,73 @@ void Human::readFromFile( string& nameq) {
 */
 
 
+bool Human::chekHitShip(char** arrX, int& y, int& x) {
+
+	if (arrX[y][x - 20 - 1] == char(254) || arrX[y][x - 20 + 1] == char(254) || arrX[y - 1][x - 20] == char(254) || arrX[y + 1][x - 20] == char(254)) {
+		return false;
+	}
+
+	else  if (arrX[y][x - 20 - 1] == 'X') {
+		if (arrX[y][x - 20 - 2] == char(254))
+			return false;
+		else if (arrX[y][x - 20 - 2] == 'X') {
+			if (arrX[y][x - 20 - 3] == char(254))
+				return false;
+			else if (arrX[y][x - 20 - 3] == 'X')
+				return true;
+			else
+				return true;
+		}
+		else
+			return true;
+	}
+	else if (arrX[y][x - 20 + 1] == 'X') {
+		if (arrX[y][x - 20 + 2] == char(254))
+			return false;
+		else if (arrX[y][x - 20 + 2] == 'X') {
+			if (arrX[y][x - 20 + 3] == char(254))
+				return false;
+			else if (arrX[y][x - 20 + 3] == 'X')
+				return true;
+			else
+				return true;
+		}
+		else
+			return true;
+	}
+	else if (arrX[y - 1][x - 20] == 'X') {
+		if (arrX[y - 2][x - 20] == char(254))
+			return false;
+		else if (arrX[y - 2][x - 20] == 'X') {
+			if (arrX[y - 3][x - 20] == char(254))
+				return false;
+			else if (arrX[y - 3][x - 20] == 'X')
+				return true;
+			else
+				return true;
+		}
+		else
+			return true;
+	}
+	else if (arrX[y + 1][x - 20] == 'X') {
+		if (arrX[y + 2][x - 20] == char(254))
+			return false;
+		else if (arrX[y + 2][x - 20] == 'X') {
+			if (arrX[y + 3][x - 20] == char(254))
+				return false;
+			else if (arrX[y + 3][x - 20] == 'X')
+				return true;
+			else
+				return true;
+		}
+		else
+			return true;
+	}
+	else
+		return true;
+
+}
+
 void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships on the console //выводит на консоль поле и корабли
 
 	system("CLS");
@@ -573,6 +640,9 @@ void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships o
 	}
 
 }
+
+
+
 
 int Human::AtackShip(char** arrX, const string& nameX) {
 	
@@ -613,11 +683,20 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 				arr[y][x] = arrX[y][x - 20];
 				arrX[y][x - 20] = 'X';
 				ShipPiece++;
-
+				csp++;
+				if (Human::chekHitShip(arrX, y, x)) {
+					cout << "KILL " << csp << " SHIP " << endl;
+					csp = 0;
+					system("pause");
+					
+					if (ShipPiece == 20)
+						hit = 0;
+				}
 			}
 			else {
 				arr[y][x] = char(253);
 				cout << "LOOOOOOSEr";
+				system("pause");
 				hit = 0;
 
 			}

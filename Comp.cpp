@@ -2,7 +2,6 @@
 #include<conio.h>
 
 int Comp::rrand() {
-
 	//this_thread::sleep_for(chrono::milliseconds(1000));
 	int r = rand() % 10 + 1;
 	return r;
@@ -14,10 +13,7 @@ Comp::Comp() {
 	Comp::freeArr();
 }
 Comp::~Comp() {
-	//Human::delAll();
-	//countShipPiece= 0;
-	//ShipPiece = 0;
-	//name = " ";
+	
 }
 
 void  Comp::delAll() {
@@ -28,7 +24,12 @@ void  Comp::delAll() {
 		countShipPiece = 0;
 		csp = 0;
 		ShipPiece = 0;
+		int r = 0, hit = 1, counter = 0;
+		int direction = 0;
+		y = 0;
+		x = 0;
 		name.erase();
+		nameUnfinished.erase();
 	}
 
 }
@@ -78,6 +79,7 @@ void Comp::FillArr() { // строим массив поле
 }
 
 void Comp::ArangmentShip()  {
+
 	FillArr();
 	int mm = 11, nn = 11;
 	int r4=0, r41=0, r42=0;
@@ -742,11 +744,7 @@ bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 					return true;
 			}else
 				return true;
-		}//else
-			//return true;
-		
-
-		else if (arrX[y][x - 20 + 1] == 'X') {
+		}else if (arrX[y][x - 20 + 1] == 'X') {
 			if (arrX[y][x - 20 +2] == char(254))
 				return false;
 			else if (arrX[y][x - 20 + 2] == 'X') {
@@ -758,11 +756,7 @@ bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 					return true;
 			}else
 				return true;
-		}//else
-			//return true;
-			
-	
-		else if (arrX[y - 1][x-20] == 'X') {
+		} else if (arrX[y - 1][x-20] == 'X') {
 			if (arrX[y - 2][x-20] == char(254))
 				return false;
 			else if (arrX[y - 2][x-20] == 'X') {
@@ -774,11 +768,7 @@ bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 					return true;
 			}else
 				return true;
-		}//else
-			//return true;
-	
-
-		else if (arrX[y + 1][x-20] == 'X') {
+		}else if (arrX[y + 1][x-20] == 'X') {
 			if (arrX[y + 2][x-20] == char(254))
 				return false;
 			else if (arrX[y + 2][x-20] == 'X') {
@@ -792,9 +782,6 @@ bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 				return true;
 		}else
 			return true;
-		
-
-
 	
 }
 
@@ -923,71 +910,6 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 }
 
 
-void Comp::shuterFalse(char** arrX, int& y, int& x) {
-	
-	if (csp != 0) {
-
-		if (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == m - 1 || y == 0 || y == 11) { // движемся в другую сторонц
-			if (direction == 1) {
-				if(x+csp+1 < m-1)
-					x = x + csp + 1;
-				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x =x- 1;
-					y =y+ 1;
-					direction = 2;
-				}
-				else
-					direction = 4;
-				return;
-			}
-			else if (direction == 2) {
-				if (y - csp - 1 > 0)
-					y = y - csp - 1;
-				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x = x+1;
-					y = y + 1;
-					direction = 4;
-					
-				}
-				else
-					direction = 3;
-				return;
-			}
-			else if (direction == 3) {
-				if(y+csp+1<n-1)
-					y = y+csp + 1;
-				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x =x- 1;
-					y =y- 1;
-					direction = 1;
-					
-				}
-				else
-					direction = 2;
-				return;
-			}
-			else if (direction == 4) {
-				if(x-csp-1>20)
-					x = x - csp - 1;
-				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x =x+ 1;
-					y = x-1;
-					direction = 3;
-					
-				}
-				else
-					direction = 1;
-				return;
-			}
-		}
-
-
-	}
-
-
-	
-}
-
 bool Comp::shuter(char** arrX, int& y, int& x) {
 	
 	if (hit == 1 && csp > 0) {
@@ -1001,123 +923,90 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			x++;
 		
 	}
-	cout << "shuter  0 " << endl;
-	cout << "hit = " << hit << endl;
-	cout << "csp = " << csp << endl;
-	cout << "arr[y][x] = " << arr[y][x] << endl;
-	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-	cout << " y =  " << arr[y][0] << endl;
-	cout << " x = " << arr[0][x] << endl;
-
-	system("pause");
-
+	
 	if (csp != 0) {
 		
 					
 		while (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == 31 || y == 0 || y == 11) { // движемся в другую сторонц
 			if (direction == 1) {
-				cout << "dir 1 1 = " << direction << endl;
+				
 				if (x + csp + 1 < m )
 					x = x + csp + 1;
 				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x - 1;
 					y = y + 1;
 					direction = 2;
-					cout << "dir 1 2 = " << direction << endl;
+					
 				}
 				else
 					direction = 4;
-				cout << "dir 1 4 = " << direction << endl;
+				
 
 			}
 			else if (direction == 2) {
-				cout << "dir 2 2 = " << direction << endl;
+				
 				if (y - csp - 1 >= 0 )
 					y = y - csp - 1;
 				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x + 1;
 					y = y + 1;
 					direction = 4;
-					cout << "dir 2 4 = " << direction << endl;
-
+					
 				}
 				else
 					direction = 3;
-				cout << "dir 2 3 = " << direction << endl;
-
+				
 			}
 			else if (direction == 3) {
-				cout << "dir 3 3 = " << direction << endl;
+				
 				if (y + csp + 1 < n )
 					y = y + csp + 1;
 				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x - 1;
 					y = y - 1;
 					direction = 1;
-					cout << "dir 3 1 = " << direction << endl;
+					
 
 				}
 				else
 					direction = 2;
-				cout << "dir 3 2 = " << direction << endl;
+				
 
 			}
 			else if (direction == 4) {
-				cout << "dir 4 4 = " << direction << endl;
+				
 				if (x - csp - 1 >= 20 )
 					x = x - csp - 1;
 				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x + 1;
 					y = y - 1;
 					direction = 3;
-					cout << "dir 4 3 = " << direction << endl;
+					
 
 				}
 				else
 					direction = 1;
-				cout << "dir 4 1 = " << direction << endl;
+				
 
 			}
-			cout << "dir  = " << direction << endl;
-			
-			cout << "hit = " << hit << endl;
-			cout << "csp = " << csp << endl;
-			cout << "arr[y][x] = " << arr[y][x] << endl;
-			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-			cout << " y =  " << arr[y][0] << endl;
-			cout << " x = " << arr[0][x] << endl;
-
-			system("pause");
-			
-			
-			//}
-			
+						
 		}
 
 	}
 		
 	if ( arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) ) {
-		cout << "if arr[y][x] == ' ' " << arr[y][x] << endl;
+		
 		if (arrX[y][x - 20] == char(254)) {
-			cout << "if arrX[y][x-20] == 254" << endl;
+			
 
 			arr[y][x] = char(254);
-			cout << arr[y][x] << endl;
+			
 			arrX[y][x - 20] = 'X';
-			cout << arrX[y][x-20] << endl;
+			
 			ShipPiece++;
 			csp++;
 				
-			cout << "dir  = " << direction << endl;
-			cout << "hit = " << hit << endl;
-			cout << "csp = " << csp << endl;
-			cout << "arr[y][x] = " << arr[y][x] << endl;
-			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-			cout << " y =  " << arr[y][0] << endl;
-			cout << " x = " << arr[0][x] << endl;
-
-			system("pause");
-
+			
 			return true;
 		
 		}
@@ -1125,38 +1014,14 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			arr[y][x] = char(253);
 			arrX[y][x - 20] = char(253);
 			cout << "LOOOOOOSEr" << endl;
-			cout << arr[y][x] << " : " << arrX[y][x - 20] << endl;
-
-			cout << "dir  = " << direction << endl;
-
-			cout << "hit = " << hit << endl;
-			cout << "csp = " << csp << endl;
-			cout << "arr[y][x] = " << arr[y][x] << endl;
-			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-			cout << " y =  " << arr[y][0] << endl;
-			cout << " x = " << arr[0][x] << endl;
-
 			system("pause");
-			
 			return false;
 
 		}
 
 	} 
 	
-	cout << "UPS" << endl;
-	cout << "dir  = " << direction << endl;
-
-	cout << "hit = " << hit << endl;
-	cout << "csp = " << csp << endl;
-	cout << "arr[y][x] = " << arr[y][x] << endl;
-	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-	cout << " y =  " << arr[y][0] << endl;
-	cout << " x = " << arr[0][x] << endl;
-
 	
-
-	system("pause");
 	return false;
 		
 		
@@ -1164,21 +1029,13 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 
 
 int Comp::AtackShip(char** arrX, const string& nameX) {
-	counter++;
-	cout << "atack 0 " << endl;
-	cout << "hit = " << hit << endl;
-	cout << "csp = " << csp << endl;
-	cout << "arr[y][x] = " << arr[y][x] << endl;
-	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-	cout << " y =  " << arr[y][0] << endl;
-	cout << " x = " << arr[0][x] << endl;
-
-	system("pause");
+	
+	
 	if (csp == 0) {
 		do {
 			x = rand() % 10 + 21;
 			y = rand() % 10 + 1;
-		} while (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253));
+		} while (arr[y][x] != ' ');
 		r = rand() % 10 + 1;
 	}
 	
@@ -1186,39 +1043,23 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 			
 	do {
 
-		cout << "atack do 0 " << endl;
-		cout << "hit = " << hit << endl;
-		cout << "csp = " << csp << endl;
-		cout << "arr[y][x] = " << arr[y][x] << endl;
-		cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
-		cout << " y =  " << y << endl;
-		cout << " x = " << x << endl;
-
-		system("pause");
+		
 		if (Comp::shuter(arrX, y, x)) {
-			Comp::AtackPrintScreen(y, x);
+			
 						
 			if (Comp::chekHitShip(arrX, y, x)) {
+				Comp::outlineX(y, x);
+				
 				Comp::AtackPrintScreen(y, x);
 												
 				cout << "KILL " << csp << " ship " << endl;
-				cout << "dir  = " << direction << endl;
-
-				cout << "hit = " << hit << endl;
-				cout << "csp = " << csp << endl;
-				cout << "arr[y][x] = " << arr[y][x] << endl;
-				cout << "arrX[y][x] = " << arrX[y][x] << endl;
-				cout << " y =  " << y << endl;
-				cout << " x = " << x << endl;
-
-				system("pause");
-
-				Comp::outlineX(y, x);
-				
+								
 				csp = 0;
 				direction = 0;
-
-				//return true;
+				system("pause");
+				
+				if (ShipPiece == 20)
+					hit = 0;
 			}
 			
 			
@@ -1227,11 +1068,11 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 				do {
 					x = rand() % 10 + 21;
 					y = rand() % 10 + 1;
-				} while (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253));
+				} while (arr[y][x] != ' ');
 				r = rand() % 10 + 1;
 
 			}
-			if (csp == 1 /* && (hit == 0 || counter == 1)*/) {
+			if (csp == 1 ) {
 				
 				if (x > 25 && y < 6) {
 					if (r < 6) {
@@ -1287,3 +1128,187 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 }
 
 int Comp::getShipPice() { return ShipPiece; }
+
+
+bool Comp::correctPlaceShip() {
+
+	int s1 = 0;
+	int  s2 = 0, s21 = 0, s22 = 0;
+	int  s3 = 0, s31 = 0, s32 = 0;
+	int  s4 = 0, s41 = 0, s42 = 0;
+
+	for (int i = 1; i < n; i++)
+	{
+		for (int j = 1; j < m; j++)
+		{
+			if (arr[i][j] == char(254)) {
+				if (arr[i - 1][j - 1] != char(254) && arr[i - 1][j] != char(254) && arr[i - 1][j + 1] != char(254) && arr[i][j + 1] != char(254) && arr[i + 1][j + 1] != char(254) && arr[i + 1][j] != char(254) && arr[i + 1][j - 1] != char(254) && arr[i][j - 1] != char(254)) {
+					s1++;
+				}
+			}
+		}
+
+	}
+
+	if (s1 != 4) {
+		cout << "The ships are not positioned correctly. 1-deck " << endl;
+		return false;
+	}
+	else {
+
+		for (int i = 1; i < n; i++)
+		{
+			for (int j = 1; j < m - 1; j++)
+			{
+				if (arr[i][j] == char(254) && arr[i][j + 1] == char(254)) {
+					if (arr[i - 1][j - 1] != char(254) && arr[i - 1][j] != char(254) && arr[i - 1][j + 1] != char(254) && arr[i - 1][j + 2] != char(254) && arr[i][j + 2] != char(254) && arr[i + 1][j + 2] != char(254) && arr[i + 1][j + 1] != char(254) && arr[i + 1][j] != char(254) && arr[i + 1][j - 1] != char(254) && arr[i][j - 1] != char(254))
+						s21++;
+				}
+			}
+		}
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n - 1; j++)
+			{
+				if (arr[j][i] == char(254) && arr[j + 1][i] == char(254)) {
+					if (arr[j - 1][i - 1] != char(254) && arr[j - 1][i] != char(254) && arr[j - 1][i + 1] != char(254) && arr[j][i + 1] != char(254) && arr[j + 1][i + 1] != char(254) && arr[j + 2][i + 1] != char(254) && arr[j + 2][i] != char(254) && arr[j + 2][i - 1] != char(254) && arr[j + 1][i - 1] != char(254) && arr[j][i - 1] != char(254))
+						s22++;
+				}
+			}
+		}
+		s2 = s21 + s22;
+		if (s2 != 3) {
+			cout << "The ships are not positioned correctly. 2-deck " << endl;
+			return false;
+		}
+		else {
+
+			int t31 = 0;
+			for (int i = 1; i < n; i++)
+			{
+				for (int j = 1; j < m - 3; j++)
+				{
+					t31 = 0;
+					if (arr[i][j] == char(254) && arr[i][j + 1] == char(254) && arr[i][j + 2] == char(254)) {
+						//cout << arr[i][0] << arr[0][j] << endl;
+						if (arr[i][j - 1] != char(254) && arr[i][j + 3] != char(254)) {
+							int l = -1;
+							t31++;
+							while (l < 2) {
+								for (int k = -1; k < 4; k++) {
+									if (arr[i + l][j + k] != char(254))
+										t31++;
+								}
+								l = l + 2;
+							}
+						}
+						if (t31 == 11)
+							s31++;
+					}
+				}
+			}
+
+			int t32 = 0;
+			for (int i = 1; i < m; i++)
+			{
+
+				for (int j = 1; j < n - 3; j++)
+				{
+					t32 = 0;
+					if (arr[j][i] == char(254) && arr[j + 1][i] == char(254) && arr[j + 2][i] == char(254)) {
+
+						if (arr[j - 1][i] != char(254) && arr[j + 3][i] != char(254)) {
+							//cout << arr[0][i] << arr[j][0] << endl;
+							int l = -1;
+							t32++;
+							while (l < 2) {
+								for (int k = -1; k < 4; k++) {
+									if (arr[j + k][i + l] != char(254))
+										t32++;
+								}
+								l = l + 2;
+							}
+						}
+						if (t32 == 11) {
+							s32++;
+						}
+					}
+
+				}
+
+
+			}
+			s3 = s31 + s32;
+			if (s3 != 2) {
+				cout << "The ships are not positioned correctly. 3-deck " << endl;
+				return false;
+			}
+			else {
+				int t41 = 0;
+				for (int i = 1; i < n; i++)
+				{
+					for (int j = 1; j < m - 3; j++)
+					{
+						t41 = 0;
+						if (arr[i][j] == char(254) && arr[i][j + 1] == char(254) && arr[i][j + 2] == char(254) && arr[i][j + 3] == char(254)) {
+							//cout << arr[i][j] << arr[i][j] << endl;
+							if (arr[i][j - 1] != char(254) && arr[i][j + 4] != char(254)) {
+								int l = -1;
+								t41++;
+								while (l < 2) {
+									for (int k = -1; k < 5; k++) {
+										if (arr[i + l][j + k] != char(254))
+											t41++;
+									}
+									l = l + 2;
+								}
+							}
+							if (t41 == 13)
+								s41++;
+						}
+					}
+				}
+
+				int t42 = 0;
+				for (int i = 1; i < m; i++)
+				{
+
+					for (int j = 1; j < n - 3; j++)
+					{
+						t42 = 0;
+						if (arr[j][i] == char(254) && arr[j + 1][i] == char(254) && arr[j + 2][i] == char(254) && arr[j + 3][i] == char(254)) {
+							//cout << arr[0][i] << arr[j][0] << endl;
+							if (arr[j - 1][i] != char(254) && arr[j + 4][i] != char(254)) {
+								int l = -1;
+								t42++;
+								while (l < 2) {
+									for (int k = -1; k < 5; k++) {
+										if (arr[j + k][i + l] != char(254))
+											t42++;
+									}
+									l = l + 2;
+								}
+							}
+							if (t42 == 13) {
+								s42++;
+							}
+						}
+
+					}
+
+
+				}
+				s4 = s41 + s42;
+				if (s4 != 1) {
+					cout << "The ships are not positioned correctly. 4-deck " << endl;
+					return false;
+				}
+				else {
+					cout << "The ships are positioned correctly. Perfect " << endl;
+					return true;
+				}
+
+			}
+		}
+	}
+}

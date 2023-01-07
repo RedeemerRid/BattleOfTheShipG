@@ -5,6 +5,7 @@ using namespace std;
 class Human : public Player
 {
 	int n = 12, m = 32;
+	int csp = 0;
 	int countShipPiece = 0;
 	int ShipPiece = 0;
 	char** arr{ 0 };
@@ -12,6 +13,7 @@ class Human : public Player
 	string name;
 	string nameUnfinished;
 protected:
+	bool chekHitShip(char** arrX, int& y, int& x);
 	//string base_name(string const& path);
 	void FillArr();
 	void freeArr();

@@ -12,7 +12,7 @@ class Game
 	int n = 12, m = 32;
 	int countShipPiece1=0, ShipPiece1=0;
 	int countShipPiece2=0, ShipPiece2=0;
-	//char** arr{ 0 };
+	
 	char** arr1{ 0 };
 	char** arr2{ 0 };
 	string name1,  name2;
@@ -24,8 +24,6 @@ class Game
 public:
 	
 	void  delAll();
-	//void unfinishedGame();
-	
 	void playGame();
 	void set(vector<string> &v);
 	//void printGame();
@@ -36,8 +34,7 @@ protected:
 	
 	//void readFromFile();
 	
-	//int AtackShip(char** arr, const string& name, char** arrX, const string& nameX, int &countShipPiece);
-	//void AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX);
+	
 	
 };
 

@@ -158,8 +158,7 @@ void Game::arrangementOfShip() {
 	cout << " Player " << name1 << endl;
 	player1->ArangmentShip();
 	arr1 = player1->getArr();
-	//player2->setArrX(arr1);
-	//name1 = player1->getName();
+	
 	player1->print();
 	cout << " thank you, press enter so that another player can arrange their ships" << endl;
 	_getch();
@@ -168,8 +167,7 @@ void Game::arrangementOfShip() {
 	cout << "Player " << name2 << endl;
 	player2->ArangmentShip();
 	arr2 = player2->getArr();
-	//player1->setArrX(arr2);
-	//name2 = player2->getName();
+	
 	player2->print();
 	cout << " thank you, press enter to continue the game" << endl;
 	_getch();
@@ -531,8 +529,5 @@ void Game::readFromFile() {
 
 }
 
-void Game::unfinishedGame() {
-	
 
-}
 */
