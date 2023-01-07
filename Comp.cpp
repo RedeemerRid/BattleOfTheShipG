@@ -702,7 +702,7 @@ void Comp::AtackPrintScreen(int& y, int& x) { // displays the field and ships on
 
 			}
 			if (j == x && i == y && j > 20 && i > 0) {
-				if (arr[i][j] != char(254) && arr[i][j] != '*')
+				if (arr[i][j] != char(254) && arr[i][j] != '*' && arr[i][j]!=char(253))
 					cout << "+" << " ";
 				else
 					cout << arr[i][j] << " ";
@@ -726,78 +726,270 @@ void Comp::AtackPrintScreen(int& y, int& x) { // displays the field and ships on
 
 bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 	
-	if (arrX[y][x - 1] != char(254) && arrX[y][x + 1] != char(254) && arrX[y - 1][x] != char(254) && arrX[y + 1][x] != char(254)) {
-		return true;
+	if (arrX[y][x - 20 - 1] == char(254) || arrX[y][x - 20 + 1] == char(254) || arrX[y - 1][x-20] == char(254) || arrX[y + 1][x-20] == char(254)) {
+		return false;
 	}
 	
-	else /*if  (arrX[y][x - 1] == 'X' || arrX[y][x + 1] == 'X' || arrX[y - 1][x] == 'X' || arrX[y + 1][x] == 'X')*/ {   ///-----------    не учитывает направление исправить
-		if (arrX[y][x - 1] == 'X') {
-			if (arrX[y][x - 2] == char(254))
+	else  if (arrX[y][x - 20 - 1] == 'X') {
+			if (arrX[y][x - 20 - 2] == char(254))
 				return false;
-			else if (arrX[y][x - 2] == 'X') {
-				if (arrX[y][x - 3] == char(254))
+			else if (arrX[y][x - 20 - 2] == 'X') {
+				if (arrX[y][x - 20 - 3] == char(254))
 					return false;
-				else if (arrX[y][x - 3] == 'X')
+				else if (arrX[y][x - 20 - 3] == 'X') 
 					return true;
 				else
 					return true;
-			}
-			else
+			}else
 				return true;
-		}
+		}//else
+			//return true;
+		
 
-		if (arrX[y][x + 1] == 'X') {
-			if (arrX[y][x + 2] == char(254))
+		else if (arrX[y][x - 20 + 1] == 'X') {
+			if (arrX[y][x - 20 +2] == char(254))
 				return false;
-			else if (arrX[y][x + 2] == 'X') {
-				if (arrX[y][x + 3] == char(254))
+			else if (arrX[y][x - 20 + 2] == 'X') {
+				if (arrX[y][x - 20 + 3] == char(254))
 					return false;
-				else if (arrX[y][x + 3] == 'X')
+				else if (arrX[y][x - 20 + 3] == 'X')
 					return true;
 				else
 					return true;
-			}
-			else
+			}else
 				return true;
-		}
-
-		if (arrX[y - 1][x] == 'X') {
-			if (arrX[y - 2][x] == char(254))
+		}//else
+			//return true;
+			
+	
+		else if (arrX[y - 1][x-20] == 'X') {
+			if (arrX[y - 2][x-20] == char(254))
 				return false;
-			else if (arrX[y - 2][x] == 'X') {
-				if (arrX[y - 3][x] == char(254))
+			else if (arrX[y - 2][x-20] == 'X') {
+				if (arrX[y - 3][x-20] == char(254))
 					return false;
-				else if (arrX[y - 3][x] == 'X')
+				else if (arrX[y - 3][x-20] == 'X') 
 					return true;
 				else
 					return true;
-			}
-			else
+			}else
 				return true;
-		}
+		}//else
+			//return true;
+	
 
-		if (arrX[y + 1][x] == 'X') {
-			if (arrX[y + 2][x] == char(254))
+		else if (arrX[y + 1][x-20] == 'X') {
+			if (arrX[y + 2][x-20] == char(254))
 				return false;
-			else if (arrX[y + 2][x] == 'X') {
-				if (arrX[y + 3][x] == char(254))
+			else if (arrX[y + 2][x-20] == 'X') {
+				if (arrX[y + 3][x-20] == char(254))
 					return false;
-				else if (arrX[y + 3][x] == 'X')
+				else if (arrX[y + 3][x-20] == 'X') 
 					return true;
 				else
 					return true;
-			}
-			else
+			}else
 				return true;
+		}else
+			return true;
+		
+
+
+	
+}
+
+void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' around the damaged ships, so as not to shoot at these places
+	if (csp == 1) {
+		for (int i = y - 1; i < y + 2; i++) {
+			for (int j = x - 1; j < x + 2; j++) {
+				if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+					arr[i][j] = '*';
+			}
 		}
+	}
+	else if (csp > 1) {
+		if (arr[y][x + 1] == char(254)) { // X***
+			if (csp == 2) {
 
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 1; j < x + 3; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			if (csp == 3) {
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 1; j < x + 4; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			if (csp == 4) {
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 1; j < x + 5; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+		}
+		//--
+		else if (arr[y][x - 1] == char(254)) { //***X
+			if (csp == 2) {
 
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 2; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 3) {
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 3; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 4) {
+				for (int i = y - 1; i < y + 2; i++) {
+					for (int j = x - 4; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+		}
+		//--    Y***
+		else if (arr[y+1][x] == char(254)) {
+			if (csp == 2) {
+
+				for (int i = y - 1; i < y + 3; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 3) {
+				for (int i = y - 1; i < y + 4; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 4) {
+				for (int i = y - 1; i < y + 5; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+		}
+		//--    ***Y
+		else if (arr[y-1][x] == char(254)) {
+			if (csp == 2) {
+
+				for (int i = y - 2; i < y + 2; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 3) {
+				for (int i = y - 3; i <= y + 1; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+			else if (csp == 4) {
+				for (int i = y - 4; i < y + 2; i++) {
+					for (int j = x - 1; j < x + 2; j++) {
+						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
+							arr[i][j] = '*';
+					}
+				}
+			}
+		}
 	}
 }
 
-bool Comp::shuter(char** arrX, int& y, int& x) {
 
-	//if (csp == 0) {
+void Comp::shuterFalse(char** arrX, int& y, int& x) {
+	
+	if (csp != 0) {
+
+		if (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == m - 1 || y == 0 || y == 11) { // движемся в другую сторонц
+			if (direction == 1) {
+				if(x+csp+1 < m-1)
+					x = x + csp + 1;
+				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x =x- 1;
+					y =y+ 1;
+					direction = 2;
+				}
+				else
+					direction = 4;
+				return;
+			}
+			else if (direction == 2) {
+				if (y - csp - 1 > 0)
+					y = y - csp - 1;
+				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x = x+1;
+					y = y + 1;
+					direction = 4;
+					
+				}
+				else
+					direction = 3;
+				return;
+			}
+			else if (direction == 3) {
+				if(y+csp+1<n-1)
+					y = y+csp + 1;
+				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x =x- 1;
+					y =y- 1;
+					direction = 1;
+					
+				}
+				else
+					direction = 2;
+				return;
+			}
+			else if (direction == 4) {
+				if(x-csp-1>20)
+					x = x - csp - 1;
+				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x =x+ 1;
+					y = x-1;
+					direction = 3;
+					
+				}
+				else
+					direction = 1;
+				return;
+			}
+		}
+
+
+	}
+
+
+	
+}
+
+bool Comp::shuter(char** arrX, int& y, int& x) {
+	
 	if (hit == 1 && csp > 0) {
 		if (direction == 1)
 			x--;
@@ -807,313 +999,240 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			y--;
 		if (direction == 4)
 			x++;
+		
 	}
+	cout << "shuter  0 " << endl;
+	cout << "hit = " << hit << endl;
+	cout << "csp = " << csp << endl;
+	cout << "arr[y][x] = " << arr[y][x] << endl;
+	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+	cout << " y =  " << arr[y][0] << endl;
+	cout << " x = " << arr[0][x] << endl;
 
+	system("pause");
 
-	if (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) && arr[y][x] != 'X' && x != 20 && x != m - 1 && y != 0 && y != 11) {
+	if (csp != 0) {
+		
+					
+		while (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == 31 || y == 0 || y == 11) { // движемся в другую сторонц
+			if (direction == 1) {
+				cout << "dir 1 1 = " << direction << endl;
+				if (x + csp + 1 < m )
+					x = x + csp + 1;
+				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x = x - 1;
+					y = y + 1;
+					direction = 2;
+					cout << "dir 1 2 = " << direction << endl;
+				}
+				else
+					direction = 4;
+				cout << "dir 1 4 = " << direction << endl;
 
+			}
+			else if (direction == 2) {
+				cout << "dir 2 2 = " << direction << endl;
+				if (y - csp - 1 >= 0 )
+					y = y - csp - 1;
+				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x = x + 1;
+					y = y + 1;
+					direction = 4;
+					cout << "dir 2 4 = " << direction << endl;
+
+				}
+				else
+					direction = 3;
+				cout << "dir 2 3 = " << direction << endl;
+
+			}
+			else if (direction == 3) {
+				cout << "dir 3 3 = " << direction << endl;
+				if (y + csp + 1 < n )
+					y = y + csp + 1;
+				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x = x - 1;
+					y = y - 1;
+					direction = 1;
+					cout << "dir 3 1 = " << direction << endl;
+
+				}
+				else
+					direction = 2;
+				cout << "dir 3 2 = " << direction << endl;
+
+			}
+			else if (direction == 4) {
+				cout << "dir 4 4 = " << direction << endl;
+				if (x - csp - 1 >= 20 )
+					x = x - csp - 1;
+				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
+					x = x + 1;
+					y = y - 1;
+					direction = 3;
+					cout << "dir 4 3 = " << direction << endl;
+
+				}
+				else
+					direction = 1;
+				cout << "dir 4 1 = " << direction << endl;
+
+			}
+			cout << "dir  = " << direction << endl;
+			
+			cout << "hit = " << hit << endl;
+			cout << "csp = " << csp << endl;
+			cout << "arr[y][x] = " << arr[y][x] << endl;
+			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+			cout << " y =  " << arr[y][0] << endl;
+			cout << " x = " << arr[0][x] << endl;
+
+			system("pause");
+			
+			
+			//}
+			
+		}
+
+	}
+		
+	if ( arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) ) {
+		cout << "if arr[y][x] == ' ' " << arr[y][x] << endl;
 		if (arrX[y][x - 20] == char(254)) {
-			arr[y][x] = arrX[y][x - 20];
+			cout << "if arrX[y][x-20] == 254" << endl;
+
+			arr[y][x] = char(254);
+			cout << arr[y][x] << endl;
 			arrX[y][x - 20] = 'X';
+			cout << arrX[y][x-20] << endl;
 			ShipPiece++;
 			csp++;
-			/*
-			if (Comp::chekHitShip(arrX, y, x)) {
-				cout << "KILL " << csp << " ship " << endl;
-				Comp::outlineX(y, x);
-				_getch();
-				csp = 0;
-				//return true;
-			}
-			else if(csp == 1) {
-				if (x > 25 && y < 6) {
-					if (r < 6) {
-						direction = 1; // x--;
+				
+			cout << "dir  = " << direction << endl;
+			cout << "hit = " << hit << endl;
+			cout << "csp = " << csp << endl;
+			cout << "arr[y][x] = " << arr[y][x] << endl;
+			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+			cout << " y =  " << arr[y][0] << endl;
+			cout << " x = " << arr[0][x] << endl;
 
-					}
-					else
-						direction = 2; // y++;
+			system("pause");
 
-				}
-				else if (x > 25 && y > 5) {
-					if (r > 5)
-						direction = 1; // x--;
-					else
-						direction = 3; // y--;
-				}
-				else if (x < 26 && y>5) {
-					if (r < 6)
-						direction = 4; //  x++;
-					else
-						direction = 3; //  y--;
-				}
-				else if (x < 26 && y < 6) {
-					if (r > 5)
-						direction = 4; //  x++;
-					else
-						direction = 2; //  y++;
-				}
-			}
-			*/
 			return true;
+		
 		}
 		else {
 			arr[y][x] = char(253);
 			arrX[y][x - 20] = char(253);
-			cout << "LOOOOOOSEr";
+			cout << "LOOOOOOSEr" << endl;
+			cout << arr[y][x] << " : " << arrX[y][x - 20] << endl;
+
+			cout << "dir  = " << direction << endl;
+
+			cout << "hit = " << hit << endl;
+			cout << "csp = " << csp << endl;
+			cout << "arr[y][x] = " << arr[y][x] << endl;
+			cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+			cout << " y =  " << arr[y][0] << endl;
+			cout << " x = " << arr[0][x] << endl;
+
+			system("pause");
+			
 			return false;
 
 		}
 
-	}
-}
-	//}
-bool Comp::shuterFalse(char** arrX, int& y, int& x) {
-	if (csp != 0) {
+	} 
+	
+	cout << "UPS" << endl;
+	cout << "dir  = " << direction << endl;
 
-		if (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == m - 1 || y == 0 || y == 11) { // движемся в другую сторонц
-			if (direction == 1) {
-				x += csp + 1;
-				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x -= 1;
-					y += 1;
-					direction = 2;
+	cout << "hit = " << hit << endl;
+	cout << "csp = " << csp << endl;
+	cout << "arr[y][x] = " << arr[y][x] << endl;
+	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+	cout << " y =  " << arr[y][0] << endl;
+	cout << " x = " << arr[0][x] << endl;
 
-				}
-			}
-			if (direction == 2) {
-				y -= csp - 1;
-				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x += 1;
-					y += 1;
-					direction = 4;
+	
 
-				}
-			}
-			if (direction == 3) {
-				y += csp + 1;
-				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x -= 1;
-					y -= 1;
-					direction = 1;
-
-				}
-			}
-			if (direction == 4) {
-				x -= csp - 1;
-				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
-					x += 1;
-					y -= 1;
-					direction = 3;
-
-				}
-			}
-		}
-
-
-		/*
-		if (shuter(arrX, y, x)) {  // меняем направление стрельбы
-			if (direction == 1)
-				direction = 4;
-			if (direction == 2)
-				direction = 3;
-			if (direction == 3)
-				direction = 2;
-			if (direction == 4)
-				direction = 1;
-		}
-
-		*/
-
-		/*
-		if (arr[qy][qx - 1] == char(253)) {
-			while (arrX[qy][qx + csp - 20] == char(254)) {
-				arr[qy][qx + csp] = char(254);
-				arrX[qy][qx + csp - 20] = 'X';
-				csp++;
-				y = qy;
-				x = qx + csp;
-				if (Comp::chekHitShip(arrX, y, x)) {
-					cout << "KILL " << csp << " ship " << endl;
-					Comp::outlineX(y, x);
-					_getch();
-					csp = 0;
-					return true;
-				}
-
-			}
-		}
-		*/
-		return true;
-	}
+	system("pause");
 	return false;
+		
+		
 }
 
-void Comp::outlineX(int&y, int&x) {  //  -------------------------  put ' * ' around the damaged ships, so as not to shoot at these places
-	if (csp == 1) {
-		for (int i = y-1; i < y+2; i++) {
-		    for (int j = x-1; j < x + 2; j++) {
-				if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j]!=char(253) && arr[i][j] != char(254))
-					arr[i][j] = '*';
-			}
-		}
-	}
-	if (arr[y][x + 1] == char(254)) { // X***
-		if (csp == 2) {
-
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 3; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 3) {
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 4; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 4) {
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 5; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-	}
-	//--
-	if (arr[y][x - 1] == char(254)) { //***X
-		if (csp == 2) {
-
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 2; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 3) {
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 3; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 4) {
-			for (int i = y - 1; i < y + 2; i++) {
-				for (int j = x - 4; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-	}
-	//--    Y***
-	if (arr[y][y + 1] == char(254)) {
-		if (csp == 2) {
-
-			for (int i = y - 1; i < y + 3; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 3) {
-			for (int i = y - 1; i < y + 4; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 4) {
-			for (int i = y - 1; i < y + 5; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-	}
-	//--    ***Y
-	if (arr[y][y - 1] == char(254)) {
-		if (csp == 2) {
-
-			for (int i = y - 3; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 3) {
-			for (int i = y - 4; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-		if (csp == 4) {
-			for (int i = y - 5; i < y + 2; i++) {
-				for (int j = x - 1; j < x + 2; j++) {
-					if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
-						arr[i][j] = '*';
-				}
-			}
-		}
-	}
-}
 
 int Comp::AtackShip(char** arrX, const string& nameX) {
-	
-	
-		
-	
+	counter++;
+	cout << "atack 0 " << endl;
+	cout << "hit = " << hit << endl;
+	cout << "csp = " << csp << endl;
+	cout << "arr[y][x] = " << arr[y][x] << endl;
+	cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+	cout << " y =  " << arr[y][0] << endl;
+	cout << " x = " << arr[0][x] << endl;
 
-
-	
-	//int hit = 1;
-	//char c; // захват enter на клавиатуре
-	//char q; // захват стрелки на клавиатуре
+	system("pause");
 	if (csp == 0) {
 		do {
 			x = rand() % 10 + 21;
 			y = rand() % 10 + 1;
-		} while (arr[y][x] != ' ');
+		} while (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253));
 		r = rand() % 10 + 1;
 	}
 	
-
-	
-	
-		
 	Comp::AtackPrintScreen(y, x);
-	_getch();
-		
+			
 	do {
 
+		cout << "atack do 0 " << endl;
+		cout << "hit = " << hit << endl;
+		cout << "csp = " << csp << endl;
+		cout << "arr[y][x] = " << arr[y][x] << endl;
+		cout << "arrX[y][x] = " << arrX[y][x-20] << endl;
+		cout << " y =  " << y << endl;
+		cout << " x = " << x << endl;
+
+		system("pause");
 		if (Comp::shuter(arrX, y, x)) {
+			Comp::AtackPrintScreen(y, x);
+						
 			if (Comp::chekHitShip(arrX, y, x)) {
+				Comp::AtackPrintScreen(y, x);
+												
 				cout << "KILL " << csp << " ship " << endl;
-				Comp::outlineX(y, x);
-				_getch();
+				cout << "dir  = " << direction << endl;
+
+				cout << "hit = " << hit << endl;
+				cout << "csp = " << csp << endl;
+				cout << "arr[y][x] = " << arr[y][x] << endl;
+				cout << "arrX[y][x] = " << arrX[y][x] << endl;
+				cout << " y =  " << y << endl;
+				cout << " x = " << x << endl;
+
 				system("pause");
+
+				Comp::outlineX(y, x);
+				
 				csp = 0;
+				direction = 0;
+
 				//return true;
 			}
+			
+			
 			if (csp == 0) {
-				x = rand() % 10 + 21;
-				y = rand() % 10 + 1;
+								
+				do {
+					x = rand() % 10 + 21;
+					y = rand() % 10 + 1;
+				} while (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253));
 				r = rand() % 10 + 1;
+
 			}
-			if (csp == 1 && hit==0) {
+			if (csp == 1 /* && (hit == 0 || counter == 1)*/) {
+				
 				if (x > 25 && y < 6) {
 					if (r < 6) {
 						direction = 1; // x--;
@@ -1139,28 +1258,30 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 					else
 						direction = 2; //  y++;
 				}
+				cout << " - dir - " << direction << endl;
+				
+				system("pause");
 			}
 		    hit = 1;
 			
 
 		} else {
 			
-				hit = 0;
-
+			if (csp == 0) {
+				x = rand() % 10 + 21;
+				y = rand() % 10 + 1;
+				r = rand() % 10 + 1;
 			}
-
-			Comp::AtackPrintScreen(y, x);
-			cout << y << " : " << x << endl;
-			_getch();
-
+			hit = 0;
 			
+		}
+			
+		Comp::AtackPrintScreen(y, x);
+							
 		
 	} while (hit);
 	
 
-
-
-	
 
 	return hit;
 }

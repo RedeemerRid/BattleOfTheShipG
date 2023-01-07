@@ -4,7 +4,7 @@
 using namespace std;
 class Comp :  public Player
 {
-	int r = 0, hit=1;
+	int r = 0, hit=1, counter = 0;
 	int direction = 0;
 	int qx=0, qy=0, y=0, x=0;
 	int n = 12, m = 32;
@@ -18,7 +18,7 @@ class Comp :  public Player
 protected:
 	void outlineX(int& y, int& x);
 	bool shuter(char** arrX, int& y, int& x);
-	bool shuterFalse(char** arrX, int& y, int& x);
+	void shuterFalse(char** arrX, int& y, int& x);
 	bool chekHitShip(char** arrX, int& y, int& x);
 	int rrand();
 	//string base_name(string const& path);
