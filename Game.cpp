@@ -201,13 +201,16 @@ void Game::playGame() {
 						nameUnfinished = name2;
 						//player1->writeToFile(nameUnfinished);
 						//player2->writeToFile(nameUnfinished);
+						
 						do {
 							if (total_number_hit_deck_1 < 20) {
 								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
 								cout << endl << endl << endl;
 								cout << "if you want to stop the game, press - ' e '" << endl << endl;
 								cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl;
+								
 								q = _getch();
+								//_getch();
 								if (q == 'e')
 									return ;
 								system("cls");
@@ -237,7 +240,9 @@ void Game::playGame() {
 							cout << endl << endl << endl;
 							cout << "if you want to stop the game, press - ' e '" << endl << endl << endl;
 							cout << "press ENTER without fear. Poke, to be afraid to poke - to give up in the game." << endl << endl;
+							
 							q = _getch();
+							//_getch();
 							if (q == 'e')
 								return;
 							system("cls");

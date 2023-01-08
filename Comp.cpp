@@ -717,9 +717,14 @@ void Comp::AtackPrintScreen(int& y, int& x) { // displays the field and ships on
 				}
 				else if (arr[i][j] != char(254) && arr[i][j] != '*' && arr[i][j] != char(253) && arr[i][j] != 'X' && (j < 12 || (j > 20 && j < m - 1))) {
 					cout << char(250) << " ";
+					
 				}
-				else
-					cout << arr[i][j] << " ";
+				
+				else 
+					if (j < 12 && arr[i][j]!=' ') 
+						cout << char(250) << " ";
+					else
+						cout << arr[i][j] << " ";
 			}
 		}
 		cout << endl;
@@ -1003,6 +1008,10 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			arr[y][x] = char(254);
 			
 			arrX[y][x - 20] = 'X';
+			cout << endl;
+			cout << "COMP Player - " << name << " shot position : " << endl;
+			cout << "\t " << arr[y][0] << " : " << arr[0][x] << endl;
+			cout << endl;
 			
 			total_number_hit_deck++;
 			number_hit_per_ship++;
@@ -1014,8 +1023,12 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 		else {
 			arr[y][x] = char(253);
 			arrX[y][x - 20] = char(253);
+			cout << endl;
+			cout << "COMP Player - " << name << " shot position : " << endl;
+			cout << "\t " << arr[y][0] << " : " << arr[0][x] << endl;
 			cout << "LOOOOOOSEr" << endl;
-			system("pause");
+			cout << endl;
+			//system("pause");
 			return false;
 
 		}
@@ -1040,24 +1053,27 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 		r = rand() % 10 + 1;
 	}
 	
-	Comp::AtackPrintScreen(y, x);
+	
 			
 	do {
 
-		
+		//Comp::AtackPrintScreen(y, x);
+
 		if (Comp::shuter(arrX, y, x)) {
-			
+
+			//Comp::AtackPrintScreen(y, x);
 						
 			if (Comp::chekHitShip(arrX, y, x)) {
+
 				Comp::outlineX(y, x);
 				
-				Comp::AtackPrintScreen(y, x);
-												
-				cout << "KILL " << number_hit_per_ship << " ship " << endl;
-								
+				//Comp::AtackPrintScreen(y, x);
+				cout << "COMP Player - " << name << "  KILL  " << number_hit_per_ship << " ship deck " << endl;
+				cout << endl;
+				
 				number_hit_per_ship = 0;
 				direction = 0;
-				system("pause");
+				//system("pause");
 				
 				if (total_number_hit_deck == 20)
 					hit_target = 0;
@@ -1100,9 +1116,9 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 					else
 						direction = 2; //  y++;
 				}
-				cout << " - dir - " << direction << endl;
 				
-				system("pause");
+				
+				//system("pause");
 			}
 			hit_target = 1;
 			
@@ -1118,7 +1134,7 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 			
 		}
 			
-		Comp::AtackPrintScreen(y, x);
+		//Comp::AtackPrintScreen(y, x);
 							
 		
 	} while (hit_target);

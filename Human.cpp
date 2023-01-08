@@ -12,10 +12,7 @@ Human::Human() {
 	Human::freeArr();
 }
 Human::~Human() {
-	//Human::delAll();
-	//countShipPiece= 0;
-	//ShipPiece = 0;
-	//name = " ";
+	
 }
 
 void  Human::delAll() {
@@ -677,10 +674,16 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 			if (arrX[y][x - 20] == char(254)) {
 				arr[y][x] = arrX[y][x - 20];
 				arrX[y][x - 20] = 'X';
+				cout << endl;
+				cout << "MAN Player - " << name << " shoot position : " << endl;
+				cout << "\t " << arr[y][0] << " : " << arr[0][x] << endl;
+				cout << endl;
+				system("pause");
 				total_number_hit_deck++;
 				number_hit_per_ship++;
 				if (Human::chekHitShip(arrX, y, x)) {
-					cout << "KILL " << number_hit_per_ship << " SHIP " << endl;
+					cout << "MAN Player - " << name << "  KILL  " << number_hit_per_ship << " ship deck " << endl;
+					cout << endl;
 					number_hit_per_ship = 0;
 					system("pause");
 					
@@ -690,7 +693,11 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 			}
 			else {
 				arr[y][x] = char(253);
-				cout << "LOOOOOOSEr";
+				cout << endl;
+				cout << "MAN Player - " << name << " shot position : " << endl;
+				cout << "\t " << arr[y][0] << " : " << arr[0][x] << endl;
+				cout << "LOOOOOOSEr" << endl;
+				cout << endl;
 				system("pause");
 				hit_target = 0;
 
