@@ -10,8 +10,8 @@ class Game
 	Player* player1;
 	Player* player2;
 	int n = 12, m = 32;
-	int countShipPiece1=0, ShipPiece1=0;
-	int countShipPiece2=0, ShipPiece2=0;
+	int total_number_hit_deck_1 =0;
+	int total_number_hit_deck_2=0;
 	
 	char** arr1{ 0 };
 	char** arr2{ 0 };

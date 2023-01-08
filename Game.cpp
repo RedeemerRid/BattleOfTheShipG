@@ -15,10 +15,10 @@ using namespace std;
 namespace fs = filesystem;
 void  Game::delAll() {
 	
-	countShipPiece1 = 0; 
-	ShipPiece1 = 0;
-	countShipPiece2 = 0;
-	ShipPiece2 = 0;
+	
+	total_number_hit_deck_1 = 0;
+	
+	total_number_hit_deck_2 = 0;
 	name1.erase();
 	name2.erase();
 	nameUnfinished.erase();
@@ -55,9 +55,7 @@ void Game::set(vector<string> &v) {
 	
 	player1->setName(name1);
 	player2->setName(name2);
-	//player1->setNameX(name2);
-	//player2->setNameX(name1);
-	
+		
 	Game::arrangementOfShip();
 	Game::playGame();
 	v.clear();
@@ -117,15 +115,14 @@ bool Game::unifinishedSet() {
 
 						player1->readFromFile(name1);
 						player2->readFromFile(name2);
-						countShipPiece1 = player1->getShipPice();
-						countShipPiece2 = player2->getShipPice();
+						total_number_hit_deck_1 = player1->getTotal_number_hit_deck();
+						total_number_hit_deck_2 = player2->getTotal_number_hit_deck();
 
 
 						arr1 = player1->getArr();
 						arr2 = player2->getArr();
 
-						//player1->setNameX(name2);
-						//player2->setNameX(name1);
+						
 						nameUnfinished = player1->getNameUnifinished();
 						//player2->getSetUnifinished();
 
@@ -154,7 +151,7 @@ bool Game::unifinishedSet() {
 */
 void Game::arrangementOfShip() {
 	system("cls");
-	cout << "Man VS Man" << endl;
+	cout << name1 << " VS " << name2 << endl;
 	cout << " Player " << name1 << endl;
 	player1->ArangmentShip();
 	arr1 = player1->getArr();
@@ -163,7 +160,7 @@ void Game::arrangementOfShip() {
 	cout << " thank you, press enter so that another player can arrange their ships" << endl;
 	_getch();
 	system("cls");
-	cout << "Man VS Man" << endl;
+	cout << name1 << " VS " << name2 << endl;
 	cout << "Player " << name2 << endl;
 	player2->ArangmentShip();
 	arr2 = player2->getArr();
@@ -193,19 +190,19 @@ void Game::playGame() {
 			do {
 				char q = ' ';
 				if (nameUnfinished != name2) {
-					if (countShipPiece1 < 20 && countShipPiece2 < 20) {
+					if (total_number_hit_deck_1 < 20 && total_number_hit_deck_2 < 20) {
 						do {
-							hit1 = 1;
+							//hit1 = 1;
 							//cout << name1 << " -  attack " << endl << endl;
 							nameUnfinished = name1;
 							hit1 = player1->AtackShip(arr2, name2);
-							countShipPiece1 = player1->getShipPice();
+							total_number_hit_deck_1 = player1->getTotal_number_hit_deck();
 						} while (hit1);
 						nameUnfinished = name2;
 						//player1->writeToFile(nameUnfinished);
 						//player2->writeToFile(nameUnfinished);
 						do {
-							if (countShipPiece1 < 20) {
+							if (total_number_hit_deck_1 < 20) {
 								cout << "The player  - " << name1 << " - missed, the move is up to the player 2 - " << name2 << endl;
 								cout << endl << endl << endl;
 								cout << "if you want to stop the game, press - ' e '" << endl << endl;
@@ -220,21 +217,21 @@ void Game::playGame() {
 						} while (q != 13);
 					}
 				}
-				if (countShipPiece1 < 20 && countShipPiece2 < 20) {
+				if (total_number_hit_deck_1 < 20 && total_number_hit_deck_2 < 20) {
 					do {
-						hit2 = 1;
+						//hit2 = 1;
 						//cout << name2 << " -  attack " << endl << endl;
 						nameUnfinished = name2;
 
 						hit2 = player2->AtackShip(arr1, name1);
-						countShipPiece2 = player2->getShipPice();
+						total_number_hit_deck_2 = player2->getTotal_number_hit_deck();
 					} while (hit2);
 					nameUnfinished = name1;
 					//player1->writeToFile(nameUnfinished);
 					//player2->writeToFile(nameUnfinished);
 					
 					do {
-						if (countShipPiece2 < 20) {
+						if (total_number_hit_deck_2 < 20) {
 							cout << endl << endl;
 							cout << "The player - " << name2 << " - missed, the move is up to the player 1 - " << name1 << endl;
 							cout << endl << endl << endl;
@@ -250,20 +247,20 @@ void Game::playGame() {
 					} while (q != 13);
 				}
 
-			} while (countShipPiece1 < 20 && countShipPiece2 < 20);
+			} while (total_number_hit_deck_1 < 20 && total_number_hit_deck_2 < 20);
 			system("cls");
 			
 				do {
-					if (countShipPiece1 == 20)
+					if (total_number_hit_deck_1 == 20)
 						cout << "win player " << name1 << " press enter " << endl;
 
-					else if (countShipPiece2 == 20)
+					else if (total_number_hit_deck_2 == 20)
 						cout << "win player " << name2 << " press enter " << endl;
 					else
 						cout << "confuse  ups " << endl;
 
-					string txt3 = "C:\\Windows\\Temp\\111\\";
-					remove(txt3.c_str());
+					//string txt3 = "C:\\Windows\\Temp\\111\\";
+					//remove(txt3.c_str());
 
 				} while (_getch() != 13);
 				_getch();
@@ -308,112 +305,12 @@ void Game::printGame() {
 }
 */
 
-/*
-void Game::AtackPrintScreen(int& y, int& x, char** arr, const string& name, char** arrX, const string& nameX) { // displays the field and ships on the console //выводит на консоль поле и корабли
 
-	system("CLS");
-	cout << name << " Guess where the boat is " << endl << endl;
-
-	for (size_t i = 0; i < n; i++) {
-		for (size_t j = 0; j < m; j++) {
-
-			if (i == 0 || j == 0) {
-				cout << arr[i][j] << " ";
-
-			}
-			if (j == x && i == y && j > 20 && i > 0) {
-				if (arr[i][j] != char(254) && arr[i][j]!='*')
-					cout << "+" << " ";
-				else
-					cout << arr[i][j] << " ";
-			}
-			else if (i > 0 && j > 0) {
-				if (i == 11 || j == 11 || j == 31) {
-					cout << arr[i][j] << " ";
-
-				}
-				else if (arr[i][j] != char(254) && arr[i][j] != '*' && arr[i][j] != char(253) && arr[i][j] != 'X' && (j < 12 || (j > 20  && j < m - 1))) {
-					cout << char(250) << " ";
-				}
-				else
-					cout << arr[i][j] << " ";
-			}
-		}
-		cout << endl;
-	}
-	
-}
-int Game::AtackShip(char** arr, const string &name, char** arrX, const string& nameX, int &countShipPiece) {
-	int hit = 1;
-	char c; // захват enter на клавиатуре
-	char q; // захват стрелки на клавиатуре
-	int x = 21;
-	int y = 1;
-	
-	Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
-	do {
-		
-		
-			c = _getch();
-			
-			if (c == -32) {
-				q = _getch();
-				// up 72
-				if (q == 72 && y > 1) {
-					y--;
-				}
-				// doarrn 80
-				if (q == 80 && y < 10) {
-					y++;
-				}
-				// left 75
-				if (q == 75 && x > 21) {
-					x--;
-				}
-				// right 77
-				if (q == 77 && x < 30) {
-					x++;
-				}
-			}
-			else if (arr[y][x] != char(254) && arr[y][x] != '*' && arr[y][x] != char(253) && arr[y][x] != 'X' && c == 'z') {
-				if (arrX[y][x - 20] == char(254)) {
-					arr[y][x] = arrX[y][x-20];
-					arrX[y][x - 20] = 'X';
-					countShipPiece++;
-								
-				}
-				else {
-					arr[y][x] = char(253);
-					cout << "LOOOOOOSEr";
-					hit = 0;
-					
-				}
-			
-			}
-			else if (arr[y][x] != char(254) && arr[y][x] != char(253) && arr[y][x] != 'X' && c == 'x') {
-				arr[y][x] = '*';
-				
-				
-			}
-			else if (arr[y][x] == '*' && c == 'c') {
-				arr[y][x] = ' ';
-				
-			}
-
-			Game::AtackPrintScreen(y, x, arr, name, arrX, nameX);
-		
-			Game::writeToFile();
-			
-	} while (hit);
-	
-	return hit;
-}
-*/
 
 /*
 void Game::writeToFile() {
-	string s1 = to_string(countShipPiece1);
-	string s2 = to_string(countShipPiece2);
+	string s1 = to_string(total_number_hit_deck_1);
+	string s2 = to_string(total_number_hit_deck_2);
 
 	
 	string txt = "C:\\Windows\\Temp\\player.dat";
@@ -523,8 +420,8 @@ void Game::readFromFile() {
 	name1 = n1;
 	name2 = n2;
 	nameUnfinished = uF;
-	countShipPiece1 = stoi(ss1);
-	countShipPiece2 = stoi(ss2);
+	total_number_hit_deck_1 = stoi(ss1);
+	total_number_hit_deck_2 = stoi(ss2);
 
 
 }

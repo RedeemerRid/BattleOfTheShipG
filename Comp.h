@@ -4,13 +4,13 @@
 using namespace std;
 class Comp :  public Player
 {
-	int r = 0, hit=1;
+	int r = 0;
+	int hit_target = 1; // 
 	int direction = 0;
 	int  y=0, x=0;
 	int n = 12, m = 32;
-	int countShipPiece = 0; // количество палуб  при  стройке 
-	int ShipPiece = 0; // общее количество подбитых палуб
-	int csp = 0; // 'X'
+	int total_number_hit_deck = 0; // общее количество подбитых палуб
+	int number_hit_per_ship = 0; // количество попаданий на один корабль, вы€сн€ю подбит он или нет  //  the number of hits per ship, I find out whether it is hit or not
 	char** arr{ 0 };
 	string name;
 	string nameUnfinished;
@@ -39,10 +39,10 @@ public:
 
 	void  delAll();
 	void print();
-	void ArangmentShip() override;
+	void ArangmentShip();
 	string getName();
 	char** getArr();
-	int getShipPice();
+	int getTotal_number_hit_deck();
 	
 
 	int AtackShip(char** arrX, const string& nameX);

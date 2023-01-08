@@ -24,7 +24,7 @@ void  Human::delAll() {
 			delete[] arr[i];
 		delete[] arr;
 	countShipPiece= 0;
-    ShipPiece = 0;
+	total_number_hit_deck = 0;
     name.erase();
 	}
 
@@ -384,11 +384,7 @@ bool Human::correctPlaceShip() {
 
 
 
-//---
 
-
-//void Human::setNameX( string& nameX) { this->nameX = nameX; }
-//void Human::setArrX(char** arrX) { this->arrX = arrX; }
 /*
 void Human::writeToFile(string& nameUnfinishedX) {
 	
@@ -646,7 +642,7 @@ void Human::AtackPrintScreen(int& y, int& x) { // displays the field and ships o
 
 int Human::AtackShip(char** arrX, const string& nameX) {
 	
-	int hit = 1;
+	int hit_target = 1;
 	char c; // захват enter на клавиатуре
 	char q; // захват стрелки на клавиатуре
 	int x = 21;
@@ -656,7 +652,6 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 	Human::AtackPrintScreen(y, x);
 	do {
 		
-
 		c = _getch();
 		
 		if (c == -32) {
@@ -682,22 +677,22 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 			if (arrX[y][x - 20] == char(254)) {
 				arr[y][x] = arrX[y][x - 20];
 				arrX[y][x - 20] = 'X';
-				ShipPiece++;
-				csp++;
+				total_number_hit_deck++;
+				number_hit_per_ship++;
 				if (Human::chekHitShip(arrX, y, x)) {
-					cout << "KILL " << csp << " SHIP " << endl;
-					csp = 0;
+					cout << "KILL " << number_hit_per_ship << " SHIP " << endl;
+					number_hit_per_ship = 0;
 					system("pause");
 					
-					if (ShipPiece == 20)
-						hit = 0;
+					if (total_number_hit_deck == 20)
+						hit_target = 0;
 				}
 			}
 			else {
 				arr[y][x] = char(253);
 				cout << "LOOOOOOSEr";
 				system("pause");
-				hit = 0;
+				hit_target = 0;
 
 			}
 
@@ -716,8 +711,8 @@ int Human::AtackShip(char** arrX, const string& nameX) {
 		
 		//Human::writeToFile(name);
 		
-	} while (hit);
+	} while (hit_target);
 	
-	return hit;
+	return hit_target;
 }
-int Human::getShipPice() { return ShipPiece; }
+int Human::getTotal_number_hit_deck() { return total_number_hit_deck; }

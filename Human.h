@@ -5,11 +5,11 @@ using namespace std;
 class Human : public Player
 {
 	int n = 12, m = 32;
-	int csp = 0;
+	int number_hit_per_ship = 0;
+	
 	int countShipPiece = 0;
-	int ShipPiece = 0;
+	int total_number_hit_deck = 0;
 	char** arr{ 0 };
-	//char** arrX{ 0 };
 	string name;
 	string nameUnfinished;
 protected:
@@ -34,10 +34,10 @@ public:
 	
 	void  delAll();
 	void print();
-	void ArangmentShip() override;
+	void ArangmentShip();
 	string getName();
 	char** getArr();
-	int getShipPice();
+	int getTotal_number_hit_deck();
 	//void setNameX( string& nameX);
 	//void setArrX(char** arrX);
 	

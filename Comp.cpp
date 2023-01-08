@@ -21,11 +21,12 @@ void  Comp::delAll() {
 		for (int i = 0; i < n; i++)
 			delete[] arr[i];
 		delete[] arr;
-		countShipPiece = 0;
-		csp = 0;
-		ShipPiece = 0;
-		int r = 0, hit = 1, counter = 0;
-		int direction = 0;
+		
+		number_hit_per_ship = 0;
+		total_number_hit_deck = 0;
+		r = 0;
+		hit_target = 1;
+		direction = 0;
 		y = 0;
 		x = 0;
 		name.erase();
@@ -786,7 +787,7 @@ bool Comp::chekHitShip(char** arrX, int& y, int& x) {
 }
 
 void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' around the damaged ships, so as not to shoot at these places
-	if (csp == 1) {
+	if (number_hit_per_ship == 1) {
 		for (int i = y - 1; i < y + 2; i++) {
 			for (int j = x - 1; j < x + 2; j++) {
 				if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -794,9 +795,9 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 			}
 		}
 	}
-	else if (csp > 1) {
+	else if (number_hit_per_ship > 1) {
 		if (arr[y][x + 1] == char(254)) { // X***
-			if (csp == 2) {
+			if (number_hit_per_ship == 2) {
 
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 1; j < x + 3; j++) {
@@ -805,7 +806,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			if (csp == 3) {
+			if (number_hit_per_ship == 3) {
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 1; j < x + 4; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -813,7 +814,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			if (csp == 4) {
+			if (number_hit_per_ship == 4) {
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 1; j < x + 5; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -824,7 +825,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 		}
 		//--
 		else if (arr[y][x - 1] == char(254)) { //***X
-			if (csp == 2) {
+			if (number_hit_per_ship == 2) {
 
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 2; j < x + 2; j++) {
@@ -833,7 +834,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 3) {
+			else if (number_hit_per_ship == 3) {
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 3; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -841,7 +842,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 4) {
+			else if (number_hit_per_ship == 4) {
 				for (int i = y - 1; i < y + 2; i++) {
 					for (int j = x - 4; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -852,7 +853,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 		}
 		//--    Y***
 		else if (arr[y+1][x] == char(254)) {
-			if (csp == 2) {
+			if (number_hit_per_ship == 2) {
 
 				for (int i = y - 1; i < y + 3; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
@@ -861,7 +862,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 3) {
+			else if (number_hit_per_ship == 3) {
 				for (int i = y - 1; i < y + 4; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -869,7 +870,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 4) {
+			else if (number_hit_per_ship == 4) {
 				for (int i = y - 1; i < y + 5; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -880,7 +881,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 		}
 		//--    ***Y
 		else if (arr[y-1][x] == char(254)) {
-			if (csp == 2) {
+			if (number_hit_per_ship == 2) {
 
 				for (int i = y - 2; i < y + 2; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
@@ -889,7 +890,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 3) {
+			else if (number_hit_per_ship == 3) {
 				for (int i = y - 3; i <= y + 1; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -897,7 +898,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 					}
 				}
 			}
-			else if (csp == 4) {
+			else if (number_hit_per_ship == 4) {
 				for (int i = y - 4; i < y + 2; i++) {
 					for (int j = x - 1; j < x + 2; j++) {
 						if (i > 0 && j > 20 && j < m - 1 && i < n - 1 && arr[i][j] != char(253) && arr[i][j] != char(254))
@@ -912,7 +913,7 @@ void Comp::outlineX(int& y, int& x) {  //  -------------------------  put ' * ' 
 
 bool Comp::shuter(char** arrX, int& y, int& x) {
 	
-	if (hit == 1 && csp > 0) {
+	if (hit_target == 1 && number_hit_per_ship > 0) {
 		if (direction == 1)
 			x--;
 		if (direction == 2)
@@ -924,14 +925,14 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 		
 	}
 	
-	if (csp != 0) {
+	if (number_hit_per_ship != 0) {
 		
 					
 		while (arr[y][x] == '*' || arr[y][x] == char(253) || x == 20 || x == 31 || y == 0 || y == 11) { // движемся в другую сторонц
 			if (direction == 1) {
 				
-				if (x + csp + 1 < m )
-					x = x + csp + 1;
+				if (x + number_hit_per_ship + 1 < m )
+					x = x + number_hit_per_ship + 1;
 				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x - 1;
 					y = y + 1;
@@ -945,8 +946,8 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			}
 			else if (direction == 2) {
 				
-				if (y - csp - 1 >= 0 )
-					y = y - csp - 1;
+				if (y - number_hit_per_ship - 1 >= 0 )
+					y = y - number_hit_per_ship - 1;
 				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x + 1;
 					y = y + 1;
@@ -959,8 +960,8 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			}
 			else if (direction == 3) {
 				
-				if (y + csp + 1 < n )
-					y = y + csp + 1;
+				if (y + number_hit_per_ship + 1 < n )
+					y = y + number_hit_per_ship + 1;
 				if (y == 0 || y == n - 1 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x - 1;
 					y = y - 1;
@@ -975,8 +976,8 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			}
 			else if (direction == 4) {
 				
-				if (x - csp - 1 >= 20 )
-					x = x - csp - 1;
+				if (x - number_hit_per_ship - 1 >= 20 )
+					x = x - number_hit_per_ship - 1;
 				if (x == m - 1 || x == 20 || arr[y][x] == char(253) || arr[y][x] == '*') {
 					x = x + 1;
 					y = y - 1;
@@ -1003,8 +1004,8 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 			
 			arrX[y][x - 20] = 'X';
 			
-			ShipPiece++;
-			csp++;
+			total_number_hit_deck++;
+			number_hit_per_ship++;
 				
 			
 			return true;
@@ -1031,7 +1032,7 @@ bool Comp::shuter(char** arrX, int& y, int& x) {
 int Comp::AtackShip(char** arrX, const string& nameX) {
 	
 	
-	if (csp == 0) {
+	if (number_hit_per_ship == 0) {
 		do {
 			x = rand() % 10 + 21;
 			y = rand() % 10 + 1;
@@ -1052,18 +1053,18 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 				
 				Comp::AtackPrintScreen(y, x);
 												
-				cout << "KILL " << csp << " ship " << endl;
+				cout << "KILL " << number_hit_per_ship << " ship " << endl;
 								
-				csp = 0;
+				number_hit_per_ship = 0;
 				direction = 0;
 				system("pause");
 				
-				if (ShipPiece == 20)
-					hit = 0;
+				if (total_number_hit_deck == 20)
+					hit_target = 0;
 			}
 			
 			
-			if (csp == 0) {
+			if (number_hit_per_ship == 0) {
 								
 				do {
 					x = rand() % 10 + 21;
@@ -1072,7 +1073,7 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 				r = rand() % 10 + 1;
 
 			}
-			if (csp == 1 ) {
+			if (number_hit_per_ship == 1 ) {
 				
 				if (x > 25 && y < 6) {
 					if (r < 6) {
@@ -1103,31 +1104,31 @@ int Comp::AtackShip(char** arrX, const string& nameX) {
 				
 				system("pause");
 			}
-		    hit = 1;
+			hit_target = 1;
 			
 
 		} else {
 			
-			if (csp == 0) {
+			if (number_hit_per_ship == 0) {
 				x = rand() % 10 + 21;
 				y = rand() % 10 + 1;
 				r = rand() % 10 + 1;
 			}
-			hit = 0;
+			hit_target = 0;
 			
 		}
 			
 		Comp::AtackPrintScreen(y, x);
 							
 		
-	} while (hit);
+	} while (hit_target);
 	
 
 
-	return hit;
+	return hit_target;
 }
 
-int Comp::getShipPice() { return ShipPiece; }
+int Comp::getTotal_number_hit_deck() { return total_number_hit_deck; }
 
 
 bool Comp::correctPlaceShip() {

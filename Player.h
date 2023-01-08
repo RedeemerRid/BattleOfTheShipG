@@ -21,7 +21,7 @@ public:
 	std::string virtual getName() = 0;
 	char virtual **getArr() = 0;
 	
-	int virtual getShipPice() = 0;
+	int virtual getTotal_number_hit_deck() = 0;
 	
 	int virtual AtackShip(char** arrX, const std::string& nameX) = 0;
 	void virtual AtackPrintScreen(int& y, int& x) = 0;

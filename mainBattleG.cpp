@@ -57,7 +57,7 @@ void getValue<int>(string prompt, int& value)
 void PlayerSMove(const int& clickNUM, vector<string> &v) {
 	
 	
-	int hit = rand() % 10;
+	int hit_target = rand() % 10;
 	int tr = rand() % 10;
 	cout << endl;
 
@@ -85,8 +85,8 @@ void PlayerSMove(const int& clickNUM, vector<string> &v) {
 		player2 = "TerminatorComp";
 		player2 = "RobocopComp";
 	}
-	cout << "Roulette gave out a number : " << hit << endl;
-	if (hit < 5) {
+	cout << "Roulette gave out a number : " << hit_target << endl;
+	if (hit_target < 5) {
 		cout << "Goes first : " << player1 << endl;
 		player1 = "1_"+player1;
 		player2 = "2_"+player2;
